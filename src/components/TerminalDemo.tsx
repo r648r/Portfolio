@@ -1,41 +1,69 @@
 "use client";
 
-import type React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from "react";
+import TerminalDisplay from "./TerminalDisplay";
 
-const TerminalDemo: React.FC = ({ className = "", ...rest }) => {
+interface TerminalDemoProps {
+  castUrl?: string;
+  title?: string;
+  className?: string;
+}
+
+export default function TerminalDemo({
+  castUrl = "https://asciinema.org/a/WCEGnczBKoqx7FctHHJD0GtMU.cast",
+  title = "~/terminal-demo",
+  className = ""
+}: TerminalDemoProps) {
   const asciiContainerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const playerInstanceRef = useRef<any>(null);
 
   useEffect(() => {
     const initializePlayer = () => {
-      if (asciiContainerRef.current && typeof window !== 'undefined' && 'AsciinemaPlayer' in window) {
+      if (asciiContainerRef.current && typeof window !== "undefined" && "AsciinemaPlayer" in window) {
         // Vérifier si le conteneur est vide
         if (asciiContainerRef.current.children.length === 0) {
           try {
-            // @ts-ignore
-            window.AsciinemaPlayer.create(
-              'https://asciinema.org/a/WCEGnczBKoqx7FctHHJD0GtMU.cast',
+            playerInstanceRef.current = window.AsciinemaPlayer.create(
+              castUrl,
               asciiContainerRef.current,
               {
                 autoPlay: false,
                 idleTimeLimit: 2,
-                poster: 'npt:0:3'
+                poster: "npt:0:3",
+                theme: "monokai",
+                fit: "width",  // Modifié de true à "width"
+                fontSize: "small"
               }
             );
+            setIsLoaded(true);
           } catch (error) {
-            console.error('Erreur lors de l\'initialisation d\'asciinema:', error);
+            console.error("Erreur lors de l'initialisation d'asciinema:", error);
           }
         }
       }
     };
 
+    // Gérer l'événement d'espace pour jouer/pauser
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && playerInstanceRef.current) {
+        e.preventDefault();
+        
+        if (playerInstanceRef.current.state === "playing") {
+          playerInstanceRef.current.pause();
+        } else {
+          playerInstanceRef.current.play();
+        }
+      }
+    };
+
     // Essayer d'initialiser le player
-    if (typeof window !== 'undefined' && 'AsciinemaPlayer' in window) {
+    if (typeof window !== "undefined" && "AsciinemaPlayer" in window) {
       initializePlayer();
     } else {
       // Si le script n'est pas encore chargé, attendons un peu
       const checkInterval = setInterval(() => {
-        if (typeof window !== 'undefined' && 'AsciinemaPlayer' in window) {
+        if (typeof window !== "undefined" && "AsciinemaPlayer" in window) {
           initializePlayer();
           clearInterval(checkInterval);
         }
@@ -45,57 +73,31 @@ const TerminalDemo: React.FC = ({ className = "", ...rest }) => {
       setTimeout(() => clearInterval(checkInterval), 5000);
     }
 
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      // Nettoyage si nécessaire
+      window.removeEventListener("keydown", handleKeyDown);
+      
+      if (playerInstanceRef.current && typeof playerInstanceRef.current.dispose === "function") {
+        playerInstanceRef.current.dispose();
+      }
     };
-  }, []);
+  }, [castUrl]);
 
   return (
-    <section className="py-16 bg-[#121314]">
-      <div className="gemini-container">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col gap-4">
-            <h2 className="text-center text-3xl font-bold mb-8 gemini-gradient-text">Démo Terminal</h2>
-
-            {/* Faux contrôles de terminal */}
-            <div className="w-full rounded-lg overflow-hidden border border-slate-700 shadow-xl bg-[#282a36]">
-              {/* Barre de titre de terminal */}
-              <div className="flex items-center justify-between px-4 py-2 bg-[#191A21] border-b border-slate-700">
-                <div className="text-sm font-mono text-gray-300">~/terminal-demo</div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                  <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
-                </div>
-              </div>
-
-              {/* Conteneur Asciinema */}
-              <div className="p-2 bg-black">
-                <div
-                  ref={asciiContainerRef}
-                  id="asciinema-player"
-                  className="asciinema-player-theme-dracula w-full"
-                  style={{ aspectRatio: '16/9' }}
-                />
-              </div>
-
-              {/* Ligne de statut en bas façon tmux */}
-              <div className="flex items-center justify-between px-4 py-1 bg-[#191A21] border-t border-slate-700 text-xs font-mono text-green-400">
-                <div>[0] bash</div>
-                <div>user@server:~</div>
-                <div>{new Date().toLocaleDateString()}</div>
-              </div>
-            </div>
-
-            {/* Information à propos du terminal */}
-            <div className="mt-4 text-center text-sm text-slate-400 font-mono">
-              <p>Pressez <span className="px-2 py-1 bg-slate-800 rounded text-xs">ESPACE</span> pour jouer/pauser la démonstration</p>
-            </div>
+    <TerminalDisplay title={title} className={className}>
+      <div className="p-2 bg-black">
+        <div
+          ref={asciiContainerRef}
+          className="w-full"
+          style={{ aspectRatio: "16/9" }}
+        />
+        {!isLoaded && (
+          <div className="flex items-center justify-center h-64 text-gray-500 font-mono text-sm">
+            Chargement du terminal...
           </div>
-        </div>
+        )}
       </div>
-    </section>
+    </TerminalDisplay>
   );
-};
-
-export default TerminalDemo;
+}

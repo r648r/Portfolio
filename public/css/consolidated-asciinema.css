@@ -1,0 +1,185 @@
+/**
+ * Styles consolidés pour Asciinema Player
+ * Résout les conflits entre les différents fichiers CSS
+ */
+
+/* Base container styles */
+.asciinema-player {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  outline: none;
+  width: 100% !important;
+  min-width: 200px;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  background-color: #000;
+  margin: 0 !important;
+}
+
+/* Terminal content styles */
+.asciinema-terminal {
+  box-sizing: content-box !important;
+  -moz-box-sizing: content-box !important;
+  -webkit-box-sizing: content-box !important;
+  overflow: hidden !important;
+  padding: 6px !important;
+  margin: 0 !important;
+  display: block !important;
+  white-space: pre !important;
+  border: 0 !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  border-radius: 0 !important;
+  cursor: text !important;
+  font-family: 'Ubuntu Mono', 'Consolas', monospace !important;
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+  background-color: #272822 !important;
+  color: #f8f8f2 !important;
+}
+
+/* Thème Monokai */
+.asciinema-theme-monokai .asciinema-terminal {
+  color: #f8f8f2 !important;
+  background-color: #272822 !important;
+  border-color: #1a1a17 !important;
+}
+
+/* Barre de contrôle */
+.asciinema-player .control-bar {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  border-top: 1px solid #3a3a3a !important;
+  color: #4a5 !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 10px !important;
+}
+
+/* Boutons de contrôle */
+.asciinema-player .control-bar .btn {
+  color: #4a5 !important;
+  background: transparent !important;
+  opacity: 0.8 !important;
+  transition: opacity 0.2s !important;
+}
+
+.asciinema-player .control-bar .btn:hover {
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Bouton de lecture */
+.asciinema-player .control-bar .playback-button div {
+  opacity: 0.85 !important;
+}
+
+/* Timer */
+.asciinema-player .control-bar .timer {
+  color: #4a5 !important;
+  font-family: monospace !important;
+  font-size: 12px !important;
+}
+
+/* Animation de chargement */
+.asciinema-player .loading {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #4a5;
+  font-family: monospace;
+}
+
+/* Curseur plus visible */
+.asciinema-terminal .cursor {
+  background-color: #c0c0c0 !important;
+}
+
+/* Sélection de texte */
+.asciinema-terminal .selection {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Correction de la hauteur minimale du terminal */
+.terminal-display .asciinema-player,
+.terminal-display .asciinema-terminal {
+  min-height: 300px !important;
+}
+
+/* Couleurs spécifiques pour les thèmes */
+.asciinema-player .fg-1 {
+  color: #f55 !important; /* Rouge */
+}
+
+.asciinema-player .fg-2 {
+  color: #5f5 !important; /* Vert */
+}
+
+.asciinema-player .fg-3 {
+  color: #ff5 !important; /* Jaune */
+}
+
+.asciinema-player .fg-4 {
+  color: #55f !important; /* Bleu */
+}
+
+.asciinema-player .fg-5 {
+  color: #f5f !important; /* Magenta */
+}
+
+.asciinema-player .fg-6 {
+  color: #5ff !important; /* Cyan */
+}
+
+.asciinema-player .fg-15 {
+  color: #fff !important; /* Blanc */
+}
+
+.asciinema-player .bg-0 {
+  background-color: #000 !important; /* Noir */
+}
+
+/* Améliorer la visibilité des commandes */
+.asciinema-terminal span[style*="color:rgb(187,187,187)"] {
+  color: #cccccc !important;
+  font-weight: 600 !important;
+}
+
+/* Adaptation aux écrans plus petits */
+@media (max-width: 768px) {
+  .asciinema-terminal {
+    font-size: 10px !important;
+  }
+  
+  .asciinema-player .control-bar {
+    padding: 4px !important;
+  }
+}
+
+/* Spécifique pour la page d'accueil */
+body:has(.snap-section) #terminal-container .asciinema-player {
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+body:has(.snap-section) #terminal-container .asciinema-terminal {
+  border-radius: 6px !important;
+  font-size: 11px !important;
+}
+
+/* Personnalisation pour le mode fullscreen */
+.asciinema-player-wrapper.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}

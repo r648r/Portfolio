@@ -1,80 +1,240 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { Download, Mail, Linkedin, Github } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import ConfettiButton from "./ConfettiButton";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import InteractiveTerminal from "./TerminalWhoami";
 
 export default function HeroSection() {
+  const [isClient, setIsClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Animation pour desktop seulement
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.7], [0, 100]);
+
+  useEffect(() => {
+    setIsClient(true);
+    
+    // Détecter si l'appareil est mobile
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Vérifier au chargement initial
+    checkIfMobile();
+    
+    // Vérifier à chaque redimensionnement de la fenêtre
+    window.addEventListener('resize', checkIfMobile);
+
+    // Effet de scroll animé vers le bas quand on clique sur le chevron
+    const scrollButton = document.getElementById("scroll-down");
+    if (scrollButton) {
+      scrollButton.addEventListener("click", () => {
+        const nextSection = document.querySelector(".snap-section:nth-child(2)");
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+      if (scrollButton) {
+        scrollButton.removeEventListener("click", () => {});
+      }
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-purple-900 pt-32 overflow-hidden">
-      {/* Background Circles */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 -right-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-60 h-60 bg-purple-600/5 rounded-full blur-3xl" />
+    <div ref={sectionRef} className="relative min-h-screen pt-4 pb-10 flex flex-col justify-between">
+      {/* Overlay avec motif de fond */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/70 via-black/80 to-blue-950/70"></div>
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
       </div>
 
-      <div className="gemini-container relative pb-20 md:pb-32 flex flex-col md:flex-row items-center animate-content">
-        {/* Image Section */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-10 md:mb-0 md:mr-12"
-        >
-          <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-purple-500 shadow-xl">
-            <div className="w-full h-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-4xl font-bold text-white">
-              JP
-            </div>
+      {/* Contenu principal */}
+      <div className="relative z-10 flex-grow flex items-center">
+        <div className="gemini-container">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+            {/* Informations de profil - 2 colonnes sur 5 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              style={{ opacity, y }}
+              className="order-2 lg:order-1 lg:col-span-2 relative z-20"
+            >
+              <div className="relative">
+                {/* Badge expérience */}
+                <div className="absolute -top-12 -left-5 bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full text-xs font-medium text-white transform -rotate-3 shadow-lg">
+                  +10 ans d'expérience
+                </div>
+
+                {/* Conteneur flex modifié pour être en colonne sur mobile et en ligne sur tablette */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start mb-6 max-w-full">
+                  <Avatar className="h-20 w-20 mb-4 sm:mb-0 sm:mr-4 border-2 border-blue-500">
+                    <AvatarImage src="https://avatars.githubusercontent.com/u/159589807?u=a00faeb742a49d9dfa2ccef5cda68b23a73d5b88&v=4" alt="Photo de profil" />
+                    <AvatarFallback className="bg-blue-900 text-blue-200">SC</AvatarFallback>
+                  </Avatar>
+
+                  <div className="text-center sm:text-left">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold flex flex-col gap-0">
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="gemini-gradient-text"
+                      >
+                        Expert en
+                      </motion.span>
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.3 }}
+                        className="gemini-gradient-text"
+                      >
+                        Cybersécurité
+                      </motion.span>
+                    </h1>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl md:text-3xl text-gray-300 mb-6 text-center sm:text-left">
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.7, delay: 0.6 }}
+                  >
+                    Pentester & Consultant Sécurité
+                  </motion.span>
+                </h2>
+
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.7, delay: 0.8 }}
+                  className="text-lg text-gray-400 mb-8 max-w-xl text-center sm:text-left"
+                >
+                  Spécialiste en sécurité offensive, audit, défense et développement sécurisé.
+                  Je protège vos infrastructures contre les menaces numériques avec
+                  une approche à la fois technique et stratégique.
+                </motion.p>
+
+                {/* Navigation sur deux lignes - progression de gradient continue */}
+                <div className="space-y-3 mb-6">
+                  {/* Première ligne de boutons - conteneur transparent et boutons avec gradient */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 1.0 }}
+                    className="flex flex-wrap gap-3"
+                  >
+                    <ConfettiButton
+                      href="/cv/cv-fr.pdf"
+                      className="bg-gradient-to-r from-violet-800 to-violet-600 hover:from-violet-700 hover:to-violet-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      📄 CV Français
+                    </ConfettiButton>
+
+                    <ConfettiButton
+                      href="#competences"
+                      className="bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-600 hover:to-indigo-400 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      🧠 Compétences
+                    </ConfettiButton>
+
+                    <ConfettiButton
+                      href="#projets"
+                      className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      🚀 Projets
+                    </ConfettiButton>
+                  </motion.div>
+
+                  {/* Deuxième ligne de boutons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 1.2 }}
+                    className="flex flex-wrap gap-3"
+                  >
+                    <ConfettiButton
+                      href="/cv/cv-en.pdf"
+                      className="bg-gradient-to-r from-violet-800 to-violet-600 hover:from-violet-700 hover:to-violet-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      📄 CV English
+                    </ConfettiButton>
+
+                    <ConfettiButton
+                      href="#contact"
+                      className="bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-600 hover:to-indigo-400 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      📨 Contact
+                    </ConfettiButton>
+
+                    <ConfettiButton
+                      href="#expertise"
+                      className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                    >
+                      🛡️ Expertise
+                    </ConfettiButton>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Terminal interactif à droite - 3 colonnes sur 5 */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              style={{ opacity }}
+              className="order-1 lg:order-2 lg:col-span-3 relative z-10"
+            >
+              <div className="relative">
+                {/* Effet de glow derrière le terminal */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg blur opacity-30"></div>
+                
+                {/* Terminal interactif remplace l'ancien terminal */}
+                {isClient && <InteractiveTerminal />}
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
-
-        {/* Content Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-center md:text-left"
-        >
-          <div className="flex flex-col items-center md:items-start">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">
-              Jean Prénom
-            </h1>
-            <div className="bg-purple-500/20 px-4 py-2 rounded-full text-purple-300 font-semibold mb-6">
-              Ingénieur Cybersécurité / Réseaux
-            </div>
-            <p className="text-xl text-gray-300 max-w-2xl mb-6">
-              Alternant passionné par la cybersécurité et les réseaux, avec une expertise en détection de vulnérabilités, déploiement de systèmes SIEM/XDR et administration réseau.
-            </p>
-
-            <div className="flex items-center mb-8 bg-purple-800/30 px-4 py-2 rounded-lg">
-              <h2 className="text-3xl text-purple-400 font-medium">Bonjour</h2>
-              <span className="text-3xl ml-2 animate-bounce">👋</span>
-            </div>
-
-            <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
-              <ConfettiButton className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-6 py-6 flex items-center">
-                <Download className="mr-2 h-5 w-5" />
-                Télécharger CV
-              </ConfettiButton>
-              <ConfettiButton variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/10 rounded-full px-6 py-6 flex items-center">
-                <Mail className="mr-2 h-5 w-5" />
-                Contact
-              </ConfettiButton>
-            </div>
-
-            <div className="flex space-x-4">
-              <a href="https://www.linkedin.com" className="text-gray-400 hover:text-purple-400 transition-colors">
-                <Linkedin size={24} />
-              </a>
-              <a href="https://github.com" className="text-gray-400 hover:text-purple-400 transition-colors">
-                <Github size={24} />
-              </a>
-            </div>
-          </div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+
+      {/* Flèche de défilement vers le bas */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.5,
+          delay: 2,
+          repeat: Infinity,
+          repeatType: "reverse",
+          repeatDelay: 1
+        }}
+        className="relative z-10 mt-2 mb-8 flex justify-center"
+      >
+        <button
+          id="scroll-down"
+          className="group flex flex-col items-center text-blue-400 hover:text-blue-300 transition-colors"
+        >
+          <span className="text-sm mb-2 opacity-70 group-hover:opacity-100">Découvrir</span>
+          <ChevronDown className="h-6 w-6 animate-bounce" />
+        </button>
+      </motion.div>
+    </div>
   );
 }

@@ -82,6 +82,18 @@
     --color-red: rgb(255, 87, 87);
     --color-purple: rgb(175, 126, 255);
 
+    /* Gradient button colors */
+    --gradient-blue-from: rgb(14, 165, 233);
+    --gradient-blue-to: rgb(59, 130, 246);
+    --gradient-cyan-from: rgb(34, 211, 238);
+    --gradient-cyan-to: rgb(59, 130, 246);
+    --gradient-indigo-from: rgb(99, 102, 241);
+    --gradient-indigo-to: rgb(14, 165, 233);
+    --gradient-purple-from: rgb(147, 51, 234);
+    --gradient-purple-to: rgb(59, 130, 246);
+    --gradient-teal-from: rgb(45, 212, 191);
+    --gradient-teal-to: rgb(14, 165, 233);
+
     /* Indicator values */
     --indicator-size: 10px;
     --indicator-total-height: 100vh;
@@ -153,6 +165,14 @@
     @apply bg-background text-foreground;
     font-family: 'Ubuntu Mono', monospace;
   }
+
+  /* Appliquer le dégradé à tous les titres h1, h2, h3 */
+  h1, h2, h3 {
+    @apply bg-clip-text text-transparent font-mono;
+    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    font-family: 'Ubuntu Mono', monospace;
+  }
 }
 
 @layer components {
@@ -179,6 +199,71 @@
 
   .gemini-card {
     @apply rounded-2xl bg-black/20 backdrop-blur-sm border border-slate-800;
+  }
+
+  /* Nouveaux styles de boutons en dégradé - CORRIGÉS */
+  .btn-gradient {
+    @apply relative inline-flex items-center justify-center p-0.5 rounded-lg overflow-hidden focus:outline-none shadow-lg transition-all duration-300;
+  }
+
+  .btn-gradient-inner {
+    @apply relative px-5 py-2.5 transition-all ease-in duration-200 rounded-md flex items-center justify-center gap-2;
+  }
+
+  /* Variante Blue Team - Un dégradé cyan à bleu plus clair */
+  .btn-blue-cyan {
+    @apply bg-gradient-to-br from-blue-400 to-blue-600 hover:scale-105 focus:ring-4 focus:ring-blue-400/30;
+  }
+  .btn-blue-cyan .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante violet-bleu pour DevSecOps - Nuances plus douces */
+  .btn-purple-blue {
+    @apply bg-gradient-to-br from-indigo-400 to-blue-600 hover:scale-105 focus:ring-4 focus:ring-indigo-400/30;
+  }
+  .btn-purple-blue .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante bleu profond pour démos terminal */
+  .btn-deep-blue {
+    @apply bg-gradient-to-br from-blue-500 to-indigo-600 hover:scale-105 focus:ring-4 focus:ring-blue-500/30;
+  }
+  .btn-deep-blue .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante teal-bleu - Plus vibrant */
+  .btn-teal-blue {
+    @apply bg-gradient-to-br from-cyan-400 to-blue-500 hover:scale-105 focus:ring-4 focus:ring-teal-400/30;
+  }
+  .btn-teal-blue .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante rouge pour Red Team - Plus subtile */
+  .btn-red-gradient {
+    @apply bg-gradient-to-br from-red-500 to-red-700 hover:scale-105 focus:ring-4 focus:ring-red-500/30;
+  }
+  .btn-red-gradient .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante violette pour sections spéciales - Plus subtile */
+  .btn-purple-gradient {
+    @apply bg-gradient-to-br from-indigo-500 to-purple-600 hover:scale-105 focus:ring-4 focus:ring-purple-500/30;
+  }
+  .btn-purple-gradient .btn-gradient-inner {
+    @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
+  }
+
+  /* Variante contours */
+  .btn-outline-gradient {
+    @apply bg-gradient-to-br from-blue-300 to-blue-500 hover:scale-105 focus:ring-4 focus:ring-blue-400/30;
+  }
+  .btn-outline-gradient .btn-gradient-inner {
+    @apply bg-black bg-opacity-90 text-white hover:bg-black/50;
   }
 }
 
@@ -286,4 +371,86 @@
       opacity: 0;
     }
   }
+}
+
+/* Styles pour Asciinema */
+.asciinema-player {
+  max-width: 100% !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.asciinema-terminal {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  padding: 6px !important;
+  font-family: 'Ubuntu Mono', 'Courier New', monospace !important;
+}
+
+.asciinema-theme-monokai .asciinema-terminal {
+  color: #f8f8f2;
+  background-color: #272822;
+  border-color: #1a1a17;
+}
+
+.asciinema-player .control-bar {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  border-top: 1px solid #3a3a3a !important;
+}
+
+@media (max-width: 768px) {
+  .asciinema-terminal {
+    font-size: 10px !important;
+  }
+
+  .asciinema-player .control-bar {
+    padding: 4px !important;
+  }
+}
+
+#terminal-container .asciinema-terminal {
+  font-size: 11px !important;
+}
+
+/* Style pour le conteneur de boutons avec ligne de dégradé */
+.gradient-buttons-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Ligne de dégradé sous les boutons */
+.gradient-buttons-container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 4px;
+  background: linear-gradient(to right, #1e3a8a, #7e22ce, #dc2626);
+  border-radius: 2px;
+}
+
+/* Ajustement des couleurs des boutons pour qu'ils correspondent à leur position dans le dégradé */
+.gradient-buttons-container > a:nth-child(1) {
+  background: linear-gradient(to right, #1e3a8a, #1e40af);
+}
+
+.gradient-buttons-container > a:nth-child(1):hover {
+  background: linear-gradient(to right, #1e40af, #2563eb);
+}
+
+.gradient-buttons-container > a:nth-child(2) {
+  background: linear-gradient(to right, #6d28d9, #7c3aed);
+}
+
+.gradient-buttons-container > a:nth-child(2):hover {
+  background: linear-gradient(to right, #7c3aed, #8b5cf6);
+}
+
+.gradient-buttons-container > a:nth-child(3) {
+  background: linear-gradient(to right, #b91c1c, #dc2626);
+}
+
+.gradient-buttons-container > a:nth-child(3):hover {
+  background: linear-gradient(to right, #dc2626, #ef4444);
 }

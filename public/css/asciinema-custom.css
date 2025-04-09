@@ -1,0 +1,104 @@
+/**
+ * Personnalisation de l'apparence d'Asciinema
+ * À placer dans /public/css/asciinema-custom.css
+ */
+
+/* Personnalisation globale des terminaux Asciinema */
+.asciinema-player {
+    max-width: 100% !important;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Terminal plus petit en police et mieux intégré */
+  .asciinema-terminal {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    padding: 6px !important;
+    font-family: 'Ubuntu Mono', 'Courier New', monospace !important;
+  }
+  
+  /* Couleurs personnalisées pour le thème monokai */
+  .asciinema-theme-monokai .asciinema-terminal {
+    color: #f8f8f2;
+    background-color: #272822;
+    border-color: #1a1a17;
+  }
+  
+  /* Personnalisation de la barre de contrôle */
+  .asciinema-player .control-bar {
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    border-top: 1px solid #3a3a3a !important;
+  }
+  
+  /* Ajustement pour les écrans plus petits */
+  @media (max-width: 768px) {
+    .asciinema-terminal {
+      font-size: 10px !important;
+    }
+    
+    .asciinema-player .control-bar {
+      padding: 4px !important;
+    }
+  }
+  
+  /* Animation de chargement plus discrète */
+  .asciinema-player .loading {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
+  
+  /* Curseur plus visible */
+  .asciinema-terminal .cursor {
+    background-color: #c0c0c0 !important;
+  }
+  
+  /* Sélection de texte */
+  .asciinema-terminal .selection {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  /* Ajuster l'apparence des boutons */
+  .asciinema-player .control-bar .playback-button div {
+    opacity: 0.85 !important;
+  }
+  
+  /* Pour le cas spécifique du terminal d'accueil */
+  #terminal-container .asciinema-terminal {
+    font-size: 11px !important;
+  }
+  
+  /* Améliorer la visibilité des commandes */
+  .asciinema-terminal span[style*="color:rgb(187,187,187)"] {
+    color: #cccccc !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Styles spécifiques pour la page d'accueil */
+  body:has(.snap-section) #terminal-container .asciinema-player {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  body:has(.snap-section) #terminal-container .asciinema-terminal {
+    border-radius: 6px !important;
+  }
+  
+  /* Améliorer la visibilité des commandes sur la démo d'accueil */
+  body:has(.snap-section) #terminal-container .asciinema-terminal span[style*="color:rgb(187,187,187)"] {
+    color: rgb(220, 220, 220) !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Adapter la démo à différentes tailles d'écran */
+  @media (max-width: 1200px) {
+    body:has(.snap-section) #terminal-container .asciinema-terminal {
+      font-size: 10px !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    body:has(.snap-section) #terminal-container .asciinema-terminal {
+      font-size: 9px !important;
+    }
+  }

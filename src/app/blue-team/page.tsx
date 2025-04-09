@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTheme } from "@/lib/theme-context";
 import { motion } from "framer-motion";
-import { Shield } from "lucide-react";
+import { Shield } from "lucide-react"; // Imported Shield icon
 import { getProjectsByCategory, Project } from "@/lib/project-utils";
 
 export default function BlueTeamPage() {
@@ -55,7 +55,6 @@ export default function BlueTeamPage() {
             <h1 className="text-5xl font-bold text-blue-400 mb-6 font-mono">
               {displayText}<span className="animate-pulse">_</span>
             </h1>
-            <Shield className="h-10 w-10 text-blue-400" />
           </motion.div>
 
           <motion.p
@@ -77,7 +76,9 @@ export default function BlueTeamPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 * index }}
             >
-              <h3 className="text-2xl font-bold gemini-gradient-text mb-3">{project.title}</h3>
+              <h3 className="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                {project.title}
+              </h3>
               <p className="text-gray-300 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.techStack.map((tech) => (

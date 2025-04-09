@@ -40,6 +40,44 @@ export default function DevSecOpsPage() {
     return () => {};
   }, [setTheme]);
 
+  // Fonction pour obtenir les couleurs selon la catégorie
+  const getCategoryColors = (category: string) => {
+    switch (category) {
+      case "Red Team":
+        return {
+          bg: "bg-red-600",
+          hover: "hover:bg-red-500",
+          shadow: "shadow-red-600/20",
+          gradient: "bg-gradient-to-r from-red-400 to-red-600",
+          hoverBg: "hover:bg-red-900"
+        };
+      case "Blue Team":
+        return {
+          bg: "bg-blue-700",
+          hover: "hover:bg-blue-600",
+          shadow: "shadow-blue-600/20",
+          gradient: "bg-gradient-to-r from-blue-400 to-blue-600",
+          hoverBg: "hover:bg-blue-900"
+        };
+      case "DevSecOps":
+        return {
+          bg: "bg-green-600",
+          hover: "hover:bg-green-500",
+          shadow: "shadow-green-600/20",
+          gradient: "bg-gradient-to-r from-green-400 to-green-600",
+          hoverBg: "hover:bg-green-900"
+        };
+      default:
+        return {
+          bg: "bg-blue-600",
+          hover: "hover:bg-blue-500",
+          shadow: "shadow-blue-600/20",
+          gradient: "gemini-gradient-text",
+          hoverBg: "hover:bg-blue-900"
+        };
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-black to-green-950 text-white">
       <Header />
@@ -54,7 +92,6 @@ export default function DevSecOpsPage() {
             <h1 className="text-5xl font-bold text-green-400 mb-6 font-mono">
               {displayText}<span className="animate-pulse">_</span>
             </h1>
-            <Server className="h-10 w-10 text-green-400" />
           </motion.div>
 
           <motion.p
@@ -122,34 +159,48 @@ export default function DevSecOpsPage() {
 
         {/* Projets */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className="gemini-card p-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 * index }}
-              whileHover={{ scale: 1.03, boxShadow: "0 10px 25px -5px rgba(0, 255, 170, 0.2)" }}
-            >
-              <h3 className="text-2xl font-bold gemini-gradient-text mb-3">{project.title}</h3>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.techStack.map((tech) => (
-                  <span key={tech} className="px-2 py-1 bg-slate-800 rounded-full text-xs hover:bg-green-900 transition-colors">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <ul className="text-sm text-gray-400 space-y-1 pl-5 list-disc mb-4">
-                {project.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-              <button className="gemini-btn-primary px-4 py-2 w-full bg-green-600 hover:bg-green-500 text-white transition-all duration-300 transform hover:scale-105 shadow-lg shadow-green-600/20">
-                Voir le projet
-              </button>
-            </motion.div>
-          ))}
+          {projects.map((project, index) => {
+            const categoryColors = getCategoryColors(project.category);
+            
+            return (
+              <motion.div
+                key={project.id}
+                className="gemini-card p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 * index }}
+                whileHover={{ 
+                  scale: 1.03, 
+                  boxShadow: "0 10px 25px -5px rgba(0, 255, 170, 0.2)" 
+                }}
+              >
+                <h3 className="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
+                  {project.title}
+                </h3>
+                <p className="text-gray-300 mb-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.techStack.map((tech) => (
+                    <span 
+                      key={tech} 
+                      className="px-2 py-1 bg-slate-800 rounded-full text-xs hover:bg-green-900 transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <ul className="text-sm text-gray-400 space-y-1 pl-5 list-disc mb-4">
+                  {project.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+                <button 
+                  className={`px-4 py-2 w-full bg-green-600 hover:bg-green-500 text-white rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg shadow-green-600/20`}
+                >
+                  Voir le projet
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
       <Footer />

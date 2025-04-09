@@ -7,10 +7,10 @@ declare global {
         options?: {
           autoPlay?: boolean;
           loop?: boolean;
-          fit?: string;
+          fit?: string | boolean;
           theme?: string;
           controls?: boolean;
-          startAt?: number;
+          startAt?: number | string;
           speed?: number;
           idleTimeLimit?: number;
           poster?: string;
@@ -19,17 +19,40 @@ declare global {
           preload?: boolean;
           fontSize?: string;
           terminalFontFamily?: string;
+          terminalLineHeight?: number;
+          markers?: Array<number | [number, string]>;
+          pauseOnMarkers?: boolean;
           [key: string]: unknown;
         }
       ) => unknown;
     };
 
+    // Global asciinema configuration
+    ASCIINEMA_PLAYER_DEFAULT_OPTIONS: {
+      theme: string;
+      cols: number;
+      rows: number;
+      autoPlay: boolean;
+      loop: boolean;
+      fit: string | boolean;
+      fontSize: string;
+      terminalLineHeight: number;
+      idleTimeLimit: number;
+    };
+    
+    // Helper functions for asciinema
+    initAsciinemaPlayer: (
+      selector: string | HTMLElement, 
+      castFile: string, 
+      options?: object
+    ) => any;
+    
+    asciinemaProcessCastURL: (url: string) => string;
+
     // Make the confetti object available globally
     confetti: import('canvas-confetti').ConfettiObject;
   }
 }
-
-// Global types for the application
 
 // Canvas Confetti types
 declare module 'canvas-confetti' {

@@ -3,11 +3,12 @@
 import type React from "react";
 import { useState } from "react";
 import TerminalPlayer from "./TerminalPlayer";
+import MiniTerminal from "./MiniTerminal"; // Import du nouveau composant
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "@/lib/theme-context";
 import { useLanguage } from "@/lib/language-context";
 import { Badge } from "@/components/ui/badge";
-import { Bug, Code, Shield, Siren, Layers, Award, GraduationCap, Terminal } from "lucide-react";
+import { Bug, Code, Shield, Siren, Layers, Award, GraduationCap, Terminal, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -121,11 +122,35 @@ export default function ProfileSection() {
             {t("profile.description")}
           </p>
 
-          <ConfettiButton
-            key="cv-button"
-            className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105">
-            {t("profile.cv")}
-          </ConfettiButton>
+          <div className="flex flex-wrap justify-center gap-4">
+            <ConfettiButton
+              key="cv-fr-button"
+              href="/cv-fr.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105">
+              {t("profile.cv")} (FR)
+            </ConfettiButton>
+            
+            <ConfettiButton
+              key="cv-en-button"
+              href="/cv-en.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 transition-all duration-300 transform hover:scale-105">
+              {t("profile.cv")} (EN)
+            </ConfettiButton>
+            
+            <ConfettiButton
+              key="contact-button"
+              mailto="contact@votredomaine.com"
+              className="bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-600/20 transition-all duration-300 transform hover:scale-105">
+              <span className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                Me contacter
+              </span>
+            </ConfettiButton>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -136,9 +161,17 @@ export default function ProfileSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
-              <Shield className="h-6 w-6" /> {t("profile.about")}
-            </h3>
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-2xl font-bold text-blue-400 flex items-center gap-2">
+                <Shield className="h-6 w-6" /> {t("profile.about")}
+              </h3>
+              
+              {/* Mini Terminal - version mobile qui s'affiche en haut sur petit écran */}
+              <div className="block md:hidden w-full max-w-xs mx-auto mt-4">
+                <MiniTerminal title="~/profile" className="w-full" />
+              </div>
+            </div>
+            
             <p className="text-gray-300 mb-4">
               Passionné par la cybersécurité depuis plus de 10 ans, je me spécialise dans la protection
               des infrastructures critiques et le développement de solutions de sécurité innovantes.
@@ -276,6 +309,15 @@ export default function ProfileSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
+            {/* Mini Terminal - version desktop, affiché sur le côté */}
+            <div className="hidden md:block mb-6">
+              <MiniTerminal title="~/profile" className="w-full shadow-lg" />
+              
+              <div className="mt-3 text-center text-xs text-gray-400">
+                <p>Tapez <span className="px-1 py-0.5 bg-blue-900 rounded text-blue-300">help</span> dans le terminal pour découvrir les commandes</p>
+              </div>
+            </div>
+
             <h3 className="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
               <Terminal className="h-6 w-6" /> {t("profile.environment")}
             </h3>
@@ -299,12 +341,40 @@ export default function ProfileSection() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="config1" className="mt-4">
-                <TerminalPlayer castFile="/casts/1.cast" title="~/red-team-config" />
+                <TerminalPlayer 
+                  castFile="/casts/1.cast" 
+                  title="~/red-team-config" 
+                  rows={15}
+                  cols={70}
+                  autoPlay={true}
+                  loop={true}
+                  speed={1.5}
+                  idleTimeLimit={1}
+                />
               </TabsContent>
               <TabsContent value="config2" className="mt-4">
-                <TerminalPlayer castFile="/casts/2.cast" title="~/blue-team-config" />
+                <TerminalPlayer 
+                  castFile="/casts/2.cast" 
+                  title="~/blue-team-config"
+                  rows={15}
+                  cols={70}
+                  autoPlay={true}
+                  idleTimeLimit={1}
+                />
               </TabsContent>
             </Tabs>
+
+            <div className="mt-4 text-xs text-gray-400 bg-blue-900/30 p-3 rounded border border-blue-800">
+              <p className="font-semibold mb-2 text-blue-300">Raccourcis clavier du terminal:</p>
+              <ul className="space-y-1 ml-3 list-disc">
+                <li>Espace - jouer/pauser</li>
+                <li>← / → - reculer/avancer de 5 secondes</li>
+                <li>Shift + ← / → - reculer/avancer de 10%</li>
+                <li>0-9 - aller à 0%, 10%, 20%... 90%</li>
+                <li>f - plein écran</li>
+                <li>, / . - avancer/reculer image par image (en pause)</li>
+              </ul>
+            </div>
 
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <Link href="/pgp">
@@ -328,4 +398,3 @@ export default function ProfileSection() {
       </div>
     </section>
   );
-}

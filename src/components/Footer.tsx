@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Github, Linkedin, Twitter, Code, BookOpen } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 
@@ -16,6 +17,39 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
+
+  // Détermine les couleurs basées sur la page/thème
+  const getColors = () => {
+    if (pathname.includes("/red-team")) {
+      return {
+        bg: "from-red-950",
+        text: "text-red-400",
+        border: "border-red-800"
+      };
+    } else if (pathname.includes("/blue-team")) {
+      return {
+        bg: "from-blue-950",
+        text: "text-blue-400",
+        border: "border-blue-800"
+      };
+    } else if (pathname.includes("/devsecops")) {
+      return {
+        bg: "from-green-950",
+        text: "text-green-400",
+        border: "border-green-800"
+      };
+    } else {
+      // Par défaut, thème bleu
+      return {
+        bg: "from-blue-950",
+        text: "text-blue-400",
+        border: "border-blue-800"
+      };
+    }
+  };
+
+  const colors = getColors();
 
   // Effet pour charger les scripts côté client seulement
   useEffect(() => {
@@ -113,7 +147,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="py-16 relative bg-gradient-to-b from-blue-950 to-black text-white border-t border-gray-800">
+    <footer className={`py-16 relative bg-gradient-to-b ${colors.bg} to-black text-white border-t ${colors.border}`}>
       {/* Canvas Background */}
       <canvas id="background" className="absolute top-0 left-0 w-full h-full"></canvas>
 
@@ -126,7 +160,7 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold mb-3 text-blue-400">{t("footer.connect_with_me")}</h2>
+          <h2 className={`text-4xl font-bold mb-3 ${colors.text}`}>{t("footer.connect_with_me")}</h2>
         </motion.div>
 
         {/* Grandes icônes sociales */}

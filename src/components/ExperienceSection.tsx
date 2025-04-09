@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GraduationCap, Briefcase, Star, Award, Clock } from "lucide-react";
-import Link from "next/link";
 
 export default function ExperienceSection() {
   const container = {
@@ -275,24 +274,6 @@ export default function ExperienceSection() {
             </motion.div>
           </TabsContent>
         </Tabs>
-
-        <div className="flex justify-center gap-4">
-          <Link href="/pgp">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105">
-              Ma clé PGP
-            </Button>
-          </Link>
-          <Link href="/tmux">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105">
-              Configuration Tmux
-            </Button>
-          </Link>
-          <Link href="/terminal">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105">
-              Démo Terminal
-            </Button>
-          </Link>
-        </div>
       </div>
     </div>
   );

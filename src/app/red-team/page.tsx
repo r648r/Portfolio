@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTheme } from "@/lib/theme-context";
 import { motion } from "framer-motion";
-import { Skull } from "lucide-react";
+import { Skull } from "lucide-react"; // Restored import of Skull icon
 import { getProjectsByCategory, Project } from "@/lib/project-utils";
 
 export default function RedTeamPage() {
@@ -55,7 +55,6 @@ export default function RedTeamPage() {
             <h1 className="text-5xl font-bold text-red-400 mb-6 font-mono">
               {displayText}<span className="animate-pulse">_</span>
             </h1>
-            <Skull className="h-10 w-10 text-red-400" />
           </motion.div>
 
           <motion.p
@@ -78,7 +77,9 @@ export default function RedTeamPage() {
               transition={{ duration: 0.3, delay: 0.1 * index }}
               whileHover={{ scale: 1.03, boxShadow: "0 10px 25px -5px rgba(255, 0, 0, 0.2)" }}
             >
-              <h3 className="text-2xl font-bold gemini-gradient-text mb-3">{project.title}</h3>
+              <h3 className="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-red-600">
+                {project.title}
+              </h3>
               <p className="text-gray-300 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.techStack.map((tech) => (
@@ -95,7 +96,7 @@ export default function RedTeamPage() {
                   <li key={feature}>{feature}</li>
                 ))}
               </ul>
-              <button className="gemini-btn-primary px-4 py-2 w-full bg-red-600 hover:bg-red-500 text-white transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-600/20">
+              <button className="px-4 py-2 w-full bg-red-600 hover:bg-red-500 text-white rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-600/20">
                 Voir le projet
               </button>
             </motion.div>

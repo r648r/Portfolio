@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, Monitor, Shield, Terminal, GraduationCap, Key, Braces } from "lucide-react";
+import { Menu, X, Home, Monitor, Shield, Terminal, GraduationCap, Key, Braces, Code } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTheme } from "@/lib/theme-context";
@@ -19,14 +19,36 @@ export default function Header() {
 
   // Détermine les couleurs basées sur la page/thème
   const getColors = () => {
-    if (pathname.includes("/devsecops")) {
+    if (pathname.includes("/red-team")) {
+      return {
+        bg: "bg-red-950/80",
+        border: "border-red-700",
+        text: "text-red-400",
+        hover: "hover:text-red-300"
+      };
+    } else if (pathname.includes("/blue-team")) {
+      return {
+        bg: "bg-blue-950/80",
+        border: "border-blue-700",
+        text: "text-blue-400",
+        hover: "hover:text-blue-300"
+      };
+    } else if (pathname.includes("/devsecops")) {
       return {
         bg: "bg-green-950/80",
         border: "border-green-700",
         text: "text-green-400",
         hover: "hover:text-green-300"
       };
+    } else if (pathname.includes("/dev")) {
+      return {
+        bg: "bg-blue-950/80",
+        border: "border-blue-700",
+        text: "text-blue-400",
+        hover: "hover:text-blue-300"
+      };
     } else {
+      // Par défaut, thème bleu
       return {
         bg: "bg-blue-950/80",
         border: "border-blue-700",
@@ -64,6 +86,7 @@ export default function Header() {
 
   const navLinks = [
     { href: "/", label: t("nav.home"), icon: <Home className="h-4 w-4" /> },
+    { href: "/dev", label: "Développement", icon: <Code className="h-4 w-4" /> },
     { href: "/red-team", label: t("nav.redteam"), icon: <Monitor className="h-4 w-4" /> },
     { href: "/blue-team", label: t("nav.blueteam"), icon: <GraduationCap className="h-4 w-4" /> },
     { href: "/devsecops", label: t("nav.devsecops"), icon: <Shield className="h-4 w-4" /> },
@@ -79,24 +102,39 @@ export default function Header() {
       className={`fixed w-full top-0 z-50 backdrop-blur-md transition-all duration-300
       ${isScrolled ? `${colors.bg} shadow-lg` : "bg-transparent"}`}
     >
-      <div className="gemini-container flex justify-between items-center py-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className={`text-2xl font-bold ${colors.text}`}>CyberPortfolio</span>
-        </Link>
+      <div className="gemini-container flex flex-col md:flex-row justify-between items-center py-4">
+        <div className="flex justify-between items-center w-full md:w-auto mb-4 md:mb-0">
+          <Link href="/" className="flex items-center gap-2">
+            <span className={`text-2xl font-bold ${colors.text}`}>CyberPortfolio</span>
+          </Link>
+          
+          {/* Menu Toggle - Mobile */}
+          <button
+            className="md:hidden flex items-center p-2 rounded-lg group"
+            onClick={toggleMenu}
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? (
+              <X className={`h-6 w-6 ${colors.text}`} />
+            ) : (
+              <Menu className={`h-6 w-6 ${colors.text}`} />
+            )}
+          </button>
+        </div>
 
         {/* Navigation - Desktop */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex flex-wrap items-center justify-center gap-3 md:gap-4 lg:gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-2 font-medium transition-colors duration-200
+              className={`flex items-center gap-2 font-medium transition-colors duration-200 py-2
                 ${isActive(link.href)
                   ? `${colors.text} border-b-2 ${colors.border}`
                   : `text-gray-300 ${colors.hover}`}`}
             >
               {link.icon}
-              {link.label}
+              <span className="text-sm lg:text-base">{link.label}</span>
             </Link>
           ))}
         </nav>
@@ -105,19 +143,6 @@ export default function Header() {
           <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
-
-        {/* Menu Toggle - Mobile */}
-        <button
-          className="md:hidden flex items-center p-2 rounded-lg group"
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-        >
-          {isOpen ? (
-            <X className={`h-6 w-6 ${colors.text}`} />
-          ) : (
-            <Menu className={`h-6 w-6 ${colors.text}`} />
-          )}
-        </button>
       </div>
 
       {/* Mobile Menu */}

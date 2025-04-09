@@ -23,16 +23,16 @@ export default function Configurations() {
       <Header />
 
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8 text-center">Mes configurations</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Mes configurations</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-blue-900/30 p-6 rounded-lg backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-4">Configuration Tmux</h2>
+            <h2 className="text-2xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Configuration Tmux</h2>
             <TmuxConfig />
           </div>
 
           <div className="bg-blue-900/30 p-6 rounded-lg backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-4">Terminal</h2>
+            <h2 className="text-2xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Terminal</h2>
             <TerminalPlayer castId="1" />
           </div>
         </div>
