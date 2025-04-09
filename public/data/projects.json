@@ -1,0 +1,186 @@
+{
+  "projects": [
+    {
+      "id": "exploitation-framework",
+      "title": "Exploitation Framework",
+      "description": "Framework modulaire pour le développement et l'exécution d'exploits ciblant diverses vulnérabilités.",
+      "category": "Red Team",
+      "tags": ["Exploitation", "Cybersécurité", "Pentest"],
+      "techStack": ["Python", "C++", "Exploitation"],
+      "features": [
+        "Automatisation des étapes d'exploitation",
+        "Bibliothèque extensible de payloads",
+        "Système de création de rapport intégré"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "malware-analysis-lab",
+      "title": "Malware Analysis Lab",
+      "description": "Environnement virtualisé pour l'analyse sécurisée de malwares et la rétro-ingénierie.",
+      "category": "Red Team",
+      "tags": ["Malware", "Reverse Engineering", "Sandbox"],
+      "techStack": ["Docker", "Terraform", "Reverse Engineering"],
+      "features": [
+        "Infrastructure as Code pour déploiement rapide",
+        "Outils de rétro-ingénierie pré-configurés",
+        "Réseau isolé et systèmes de capture de trafic"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "pentest-reporting-tool",
+      "title": "Pentest Reporting Tool",
+      "description": "Outil de génération de rapports personnalisables pour les tests d'intrusion et audits de sécurité.",
+      "category": "Red Team",
+      "tags": ["Documentation", "Reporting", "Audit"],
+      "techStack": ["TypeScript", "React", "Documentation"],
+      "features": [
+        "Modèles de rapports pour différents types d'audits",
+        "Intégration avec des scanners populaires",
+        "Export en PDF, HTML et formats éditables"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "web-scanner-framework",
+      "title": "Web Scanner Framework",
+      "description": "Framework d'analyse automatisée pour détecter les vulnérabilités dans les applications web.",
+      "category": "Red Team",
+      "tags": ["Web Security", "Scanning", "Automation"],
+      "techStack": ["Python", "Web Security", "OWASP"],
+      "features": [
+        "Détection des vulnérabilités OWASP Top 10",
+        "Module d'authentification avancé",
+        "Intégration CI/CD pour DevSecOps"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "social-engineering-toolkit",
+      "title": "Social Engineering Toolkit",
+      "description": "Collection d'outils pour les campagnes de phishing et les tests d'ingénierie sociale.",
+      "category": "Red Team",
+      "tags": ["Social Engineering", "Phishing", "Red Team"],
+      "techStack": ["Go", "JavaScript", "Social Engineering"],
+      "features": [
+        "Génération automatisée de pages de phishing",
+        "Simulateur d'attaques par email",
+        "Système de collecte et analyse de résultats"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "siem-dashboard",
+      "title": "SIEM Dashboard",
+      "description": "Tableau de bord interactif pour la visualisation et l'analyse des événements de sécurité.",
+      "category": "Blue Team",
+      "tags": ["SIEM", "Monitoring", "Visualization"],
+      "techStack": ["Elasticsearch", "React", "Data Visualization"],
+      "features": [
+        "Visualisation avancée des données de sécurité",
+        "Tableaux de bord personnalisables",
+        "Intégration avec Elasticsearch et Kibana"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "network-ids-ips",
+      "title": "Network IDS/IPS",
+      "description": "Système de détection et prévention d'intrusion réseau avec règles personnalisées.",
+      "category": "Blue Team",
+      "tags": ["Network Security", "IDS", "IPS"],
+      "techStack": ["Python", "Suricata", "Network Security"],
+      "features": [
+        "Moteur de règles configurable",
+        "Détection des signatures malveillantes",
+        "Analyse de flux réseau en temps réel"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "threat-intelligence-platform",
+      "title": "Threat Intelligence Platform",
+      "description": "Plateforme de collecte, analyse et partage de renseignements sur les menaces.",
+      "category": "Blue Team",
+      "tags": ["Threat Intel", "CTI", "Security"],
+      "techStack": ["Python", "ElasticSearch", "MISP"],
+      "features": [
+        "Agrégation de sources de threat intelligence",
+        "Corrélation d'IOCs et détection de patterns",
+        "Partage sécurisé via STIX/TAXII"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "forensics-toolkit",
+      "title": "Forensics Toolkit",
+      "description": "Collection d'outils pour analyse post-incident et investigation numérique.",
+      "category": "Blue Team",
+      "tags": ["Forensics", "Investigation", "Malware"],
+      "techStack": ["Python", "C++", "Volatility"],
+      "features": [
+        "Analyse de mémoire et disques",
+        "Récupération de données supprimées",
+        "Timeline des événements système"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "ml-malware-detection",
+      "title": "Détection de Malware par ML",
+      "description": "Système de détection de malwares basé sur l'apprentissage automatique et l'analyse comportementale.",
+      "category": "Blue Team",
+      "tags": ["Machine Learning", "Security", "Malware"],
+      "techStack": ["Python", "TensorFlow", "YARA"],
+      "features": [
+        "Détection par apprentissage profond",
+        "Analyse comportementale avancée",
+        "Faible taux de faux positifs"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "pipeline-ci-cd",
+      "title": "Pipeline CI/CD Sécurisé",
+      "description": "Conception et déploiement d'un pipeline d'intégration continue avec tests de sécurité automatisés.",
+      "category": "DevSecOps",
+      "tags": ["DevSecOps", "CI/CD", "Testing"],
+      "techStack": ["Jenkins", "Docker", "Terraform"],
+      "features": [
+        "Analyse statique de code",
+        "Tests de sécurité automatisés",
+        "Vérification des dépendances"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "kubernetes-security",
+      "title": "Infrastructure Kubernetes Sécurisée",
+      "description": "Architecture de référence pour déploiements Kubernetes hautement sécurisés en environnement critique.",
+      "category": "DevSecOps",
+      "tags": ["Cloud", "Kubernetes", "Security"],
+      "techStack": ["Kubernetes", "Istio", "Helm"],
+      "features": [
+        "Politiques de sécurité réseau",
+        "Chiffrement entre services",
+        "Gestion des secrets sécurisée"
+      ],
+      "link": "#"
+    },
+    {
+      "id": "ctf-wargames",
+      "title": "CTF - Wargames",
+      "description": "Participation et création de défis Capture The Flag pour la communauté.",
+      "category": "Red Team",
+      "tags": ["Web", "Forensics", "Reverse", "Crypto"],
+      "techStack": ["Various", "Python", "Assembly"],
+      "features": [
+        "Défis web, reverse et crypto",
+        "Environnements virtuels sécurisés",
+        "Partage de connaissances"
+      ],
+      "link": "#"
+    }
+  ]
+}

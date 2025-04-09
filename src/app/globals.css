@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Charger les polices Ubuntu Mono */
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('/fonts/UbuntuMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('/fonts/UbuntuMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('/fonts/UbuntuMono-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('/fonts/UbuntuMono-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 191 100% 50%; /* Gemini blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+
+    /* Gemini custom colors */
+    --gemini-blue: 191 100% 50%;
+    --gemini-dark: 240 10% 3.9%;
+    --gemini-light-blue: 191 100% 95%;
+    --gemini-success-green: 142 76% 43%;
+    --gemini-error-red: 0 86% 59%;
+
+    /* Animation colors */
+    --color-background: #000;
+    --color-primary: rgb(0, 220, 250);
+    --color-secondary: rgb(54, 148, 255);
+    --color-yellow: rgb(255, 204, 0);
+    --color-red: rgb(255, 87, 87);
+    --color-purple: rgb(175, 126, 255);
+
+    /* Indicator values */
+    --indicator-size: 10px;
+    --indicator-total-height: 100vh;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 191 100% 50%; /* Keep Gemini blue */
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
+  /* Thème bleu (par défaut) */
+  .theme-blue {
+    --primary: 191 100% 50%; /* Gemini blue */
+    --gemini-accent: 191 100% 50%;
+    --gemini-gradient-from: #00DCFA;
+    --gemini-gradient-to: #3694FF;
+    --gemini-hover: rgb(103, 232, 249);
+  }
+
+  /* Thème violet */
+  .theme-purple {
+    --primary: 265 89% 78%; /* Violet */
+    --gemini-accent: 265 89% 78%;
+    --gemini-gradient-from: #AF7EFF;
+    --gemini-gradient-to: #8A5CF5;
+    --gemini-hover: rgb(196, 181, 253);
+  }
+
+  /* Thème rouge */
+  .theme-red {
+    --primary: 0 91% 71%; /* Rouge */
+    --gemini-accent: 0 91% 71%;
+    --gemini-gradient-from: #FF5757;
+    --gemini-gradient-to: #FF0000;
+    --gemini-hover: rgb(252, 165, 165);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Ubuntu Mono', monospace;
+  }
+}
+
+@layer components {
+  .gemini-container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .gemini-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
+  }
+
+  .gemini-btn-primary {
+    @apply rounded-full text-black font-medium transition-colors;
+    background-color: hsl(var(--gemini-accent));
+    &:hover {
+      background-color: var(--gemini-hover);
+    }
+  }
+
+  .gemini-btn-secondary {
+    @apply rounded-full border border-slate-700 bg-transparent text-white font-medium hover:bg-slate-800 transition-colors;
+  }
+
+  .gemini-card {
+    @apply rounded-2xl bg-black/20 backdrop-blur-sm border border-slate-800;
+  }
+}
+
+/* Système de défilement fluide avec snapping et animations */
+@layer base, rhythm, layout, components, default, overwrites {
+  html {
+    /* Créer une règle de snapping sur l'élément html */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    /* Créer un scope de timeline pour cibler n'importe quel élément de la page */
+    timeline-scope: --section, --main, --site-header;
+  }
+
+  /* Correspondre aux couleurs pour obtenir le meilleur effet de fusion */
+  body,
+  .content-section {
+    background-color: var(--color-background, black);
+  }
+
+  main {
+    view-timeline: --main;
+  }
+
+  .snap-section {
+    /* Créer une règle de snapping sur l'élément section */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+
+    /* Attacher la timeline à l'élément section */
+    view-timeline: --section;
+
+    /* Définir chaque section à la hauteur dynamique complète du viewport */
+    min-height: 100dvh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animation de base pour le contenu */
+  .animate-content {
+    animation: fade-in-out ease-in-out both;
+    animation-timeline: --section;
+  }
+
+  /* Animation pour l'apparition/disparition du contenu */
+  @keyframes fade-in-out {
+    0%,
+    100% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    30%,
+    70% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Animation horizontale au défilement */
+  .animate-horizontal {
+    animation: horizontal-scroll ease-in-out both;
+    animation-timeline: --section;
+  }
+
+  @keyframes horizontal-scroll {
+    0% {
+      transform: translate3d(100%, 0%, 0);
+      opacity: 0;
+    }
+
+    50% {
+      transform: none;
+      opacity: 1;
+    }
+
+    100% {
+      transform: translate3d(-100%, 0%, 0);
+      opacity: 0;
+    }
+  }
+
+  /* Animation de zoom au défilement */
+  .animate-zoom {
+    animation: zoom-scroll ease-in-out both;
+    animation-timeline: --section;
+  }
+
+  @keyframes zoom-scroll {
+    0% {
+      filter: blur(5rem);
+      transform: scale(0.7);
+      opacity: 0;
+    }
+
+    50% {
+      filter: blur(0);
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    100% {
+      filter: blur(3rem);
+      transform: scale(1.3);
+      opacity: 0;
+    }
+  }
+}

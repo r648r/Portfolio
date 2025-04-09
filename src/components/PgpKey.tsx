@@ -1,0 +1,159 @@
+"use client";
+
+import { useState } from "react";
+import { Copy, Check, Key, Lock, Shield } from "lucide-react";
+import { playConfetti } from "@/lib/confetti";
+
+const pgpKey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+ay9VQAzuYvOjWMSOlSpIiIHObCoR
+=idBv
+-----END PGP PUBLIC KEY BLOCK-----`;
+
+export default function PgpKey() {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(pgpKey);
+    setCopied(true);
+    playConfetti();
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="my-8">
+      <div className="flex flex-col space-y-6">
+        {/* En-tête avec le titre et le bouton de copie */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <Key className="h-5 w-5 text-blue-400" />
+            <h3 className="text-xl font-bold text-blue-400">Ma Clé PGP</h3>
+          </div>
+          <button
+            onClick={copyToClipboard}
+            className="flex items-center gap-2 px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
+          >
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            <span>{copied ? "Clé copiée" : "Copier la clé"}</span>
+          </button>
+        </div>
+
+        {/* Bloc de code avec design amélioré */}
+        <div className="relative group rounded-lg overflow-hidden border border-gray-700 shadow-xl">
+          {/* Barre supérieure du bloc de code */}
+          <div className="bg-gray-800 text-gray-300 px-4 py-2 text-xs font-mono flex items-center justify-between border-b border-gray-700">
+            <span>Public PGP Key (4096-bit RSA)</span>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+          </div>
+
+          {/* Bloc de code avec numéros de ligne */}
+          <div className="relative">
+            <pre className="p-6 bg-gray-900 text-gray-300 overflow-x-auto text-sm font-mono h-[350px] overflow-y-auto leading-relaxed">
+              <code className="block whitespace-pre text-xs md:text-sm">{pgpKey}</code>
+            </pre>
+
+            {/* Élément flottant pour indiquer la copie */}
+            {copied && (
+              <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium shadow-lg flex items-center gap-2 animate-pulse">
+                <Check className="h-4 w-4" />
+                Clé copiée avec succès
+              </div>
+            )}
+
+            {/* Bouton de copie qui apparaît au survol (en plus du bouton principal) */}
+            <button
+              onClick={copyToClipboard}
+              className="absolute top-4 right-4 bg-blue-600/80 text-white p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-blue-700"
+              title="Copier la clé PGP"
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Panneau d'informations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-blue-900/20 p-5 rounded-lg border border-blue-700/50">
+            <div className="flex items-center gap-2 mb-3">
+              <Shield className="h-5 w-5 text-blue-400" />
+              <h4 className="font-semibold text-blue-300">Informations sur la clé</h4>
+            </div>
+            <div className="space-y-2 text-sm">
+              <p><span className="text-gray-400">ID:</span> <span className="text-blue-200 font-mono">U3oWndbLknXdA+idAqPetQZwZc4</span></p>
+              <p><span className="text-gray-400">Algorithme:</span> <span className="text-blue-200">RSA 4096 bits</span></p>
+              <p><span className="text-gray-400">Créée le:</span> <span className="text-blue-200">2023-04-15</span></p>
+              <p><span className="text-gray-400">Expire le:</span> <span className="text-blue-200">2025-04-15</span></p>
+            </div>
+          </div>
+
+          <div className="bg-blue-900/20 p-5 rounded-lg border border-blue-700/50">
+            <div className="flex items-center gap-2 mb-3">
+              <Lock className="h-5 w-5 text-blue-400" />
+              <h4 className="font-semibold text-blue-300">Utilisation</h4>
+            </div>
+            <div className="space-y-2 text-sm">
+              <p className="text-gray-300">Utilisez cette clé publique pour :</p>
+              <ul className="list-disc list-inside text-blue-200 space-y-1">
+                <li>Chiffrer les messages que vous m'envoyez</li>
+                <li>Vérifier l'authenticité de mes signatures</li>
+                <li>Établir un canal de communication sécurisé</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
