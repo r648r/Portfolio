@@ -30,6 +30,14 @@ bun.lockb
 out
 out/
 .out
+# Node & Bun
+node_modules/
+bun.lockb
+
+# Next.js build output
+.next/
+out/
+
 
 # Python
 __pycache__/
