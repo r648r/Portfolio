@@ -90,8 +90,6 @@ export default function Header() {
     { href: "/red-team", label: t("nav.redteam"), icon: <Monitor className="h-4 w-4" /> },
     { href: "/blue-team", label: t("nav.blueteam"), icon: <GraduationCap className="h-4 w-4" /> },
     { href: "/devsecops", label: t("nav.devsecops"), icon: <Shield className="h-4 w-4" /> },
-    { href: "/tmux", label: t("nav.tmux"), icon: <Braces className="h-4 w-4" /> },
-    { href: "/pgp", label: t("nav.pgp"), icon: <Key className="h-4 w-4" /> },
     { href: "/terminal", label: t("nav.terminal"), icon: <Terminal className="h-4 w-4" /> },
   ];
 

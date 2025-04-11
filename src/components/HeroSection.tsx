@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+// Import ChevronDown supprimé car il n'est plus utilisé
 import ConfettiButton from "./ConfettiButton";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import InteractiveTerminal from "./TerminalWhoami";
@@ -18,8 +18,7 @@ export default function HeroSection() {
     offset: ["start start", "end start"]
   });
 
-  // Animation pour desktop seulement
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // Animation pour desktop seulement - suppression de l'effet de transparence
   const y = useTransform(scrollYProgress, [0, 0.7], [0, 100]);
 
   useEffect(() => {
@@ -27,7 +26,14 @@ export default function HeroSection() {
     
     // Détecter si l'appareil est mobile
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
+      
+      // Assurer que le terminal est visible sur tous les appareils
+      const terminalContainer = document.querySelector('.order-1.lg\\:order-2');
+      if (terminalContainer) {
+        terminalContainer.classList.remove('hidden');
+      }
     };
     
     // Vérifier au chargement initial
@@ -36,27 +42,15 @@ export default function HeroSection() {
     // Vérifier à chaque redimensionnement de la fenêtre
     window.addEventListener('resize', checkIfMobile);
 
-    // Effet de scroll animé vers le bas quand on clique sur le chevron
-    const scrollButton = document.getElementById("scroll-down");
-    if (scrollButton) {
-      scrollButton.addEventListener("click", () => {
-        const nextSection = document.querySelector(".snap-section:nth-child(2)");
-        if (nextSection) {
-          nextSection.scrollIntoView({ behavior: "smooth" });
-        }
-      });
-    }
+    // Le code pour l'effet de scroll avec le chevron a été supprimé
 
     return () => {
       window.removeEventListener('resize', checkIfMobile);
-      if (scrollButton) {
-        scrollButton.removeEventListener("click", () => {});
-      }
     };
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative min-h-screen pt-4 pb-10 flex flex-col justify-between">
+    <div ref={sectionRef} className="relative min-h-screen pt-20 pb-10 flex flex-col justify-between">
       {/* Overlay avec motif de fond */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-950/70 via-black/80 to-blue-950/70"></div>
@@ -66,13 +60,13 @@ export default function HeroSection() {
       {/* Contenu principal */}
       <div className="relative z-10 flex-grow flex items-center">
         <div className="gemini-container">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center mt-4 md:mt-0">
             {/* Informations de profil - 2 colonnes sur 5 */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              style={{ opacity, y }}
+              style={{ y }}
               className="order-2 lg:order-1 lg:col-span-2 relative z-20"
             >
               <div className="relative">
@@ -80,6 +74,8 @@ export default function HeroSection() {
                 <div className="absolute -top-12 -left-5 bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full text-xs font-medium text-white transform -rotate-3 shadow-lg">
                   +10 ans d'expérience
                 </div>
+
+
 
                 {/* Conteneur flex modifié pour être en colonne sur mobile et en ligne sur tablette */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start mb-6 max-w-full">
@@ -89,24 +85,27 @@ export default function HeroSection() {
                   </Avatar>
 
                   <div className="text-center sm:text-left">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold flex flex-col gap-0">
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1 }}
-                        className="gemini-gradient-text"
-                      >
-                        Expert en
-                      </motion.span>
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="gemini-gradient-text"
-                      >
-                        Cybersécurité
-                      </motion.span>
-                    </h1>
+
+
+
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold flex flex-col gap-0">
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-500 to-indigo-700 drop-shadow-md"
+      >
+        Design
+      </motion.span>
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-600 drop-shadow-md"
+      >
+        Interactif
+      </motion.span>
+    </h1>
                   </div>
                 </div>
 
@@ -142,21 +141,21 @@ export default function HeroSection() {
                   >
                     <ConfettiButton
                       href="/cv/cv-fr.pdf"
-                      className="bg-gradient-to-r from-violet-800 to-violet-600 hover:from-violet-700 hover:to-violet-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-violet-900 to-pink-600 hover:from-pink-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       📄 CV Français
                     </ConfettiButton>
 
                     <ConfettiButton
                       href="#competences"
-                      className="bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-600 hover:to-indigo-400 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-pink-600 to-pink-600 hover:from-blue-600 hover:to-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       🧠 Compétences
                     </ConfettiButton>
 
                     <ConfettiButton
                       href="#projets"
-                      className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-pink-600 to-blue-600 hover:from-pink-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       🚀 Projets
                     </ConfettiButton>
@@ -171,21 +170,21 @@ export default function HeroSection() {
                   >
                     <ConfettiButton
                       href="/cv/cv-en.pdf"
-                      className="bg-gradient-to-r from-violet-800 to-violet-600 hover:from-violet-700 hover:to-violet-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-violet-900 to-pink-600 hover:from-blue-500 hover:to-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       📄 CV English
                     </ConfettiButton>
 
                     <ConfettiButton
                       href="#contact"
-                      className="bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-600 hover:to-indigo-400 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-pink-600 to-pink-600 hover:from-pink-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       📨 Contact
                     </ConfettiButton>
 
                     <ConfettiButton
                       href="#expertise"
-                      className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
+                      className="bg-gradient-to-r from-pink-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm font-medium flex-1"
                     >
                       🛡️ Expertise
                     </ConfettiButton>
@@ -199,8 +198,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              style={{ opacity }}
-              className="order-1 lg:order-2 lg:col-span-3 relative z-10"
+              className="order-1 lg:order-2 lg:col-span-3 relative z-10 md:block"
             >
               <div className="relative">
                 {/* Effet de glow derrière le terminal */}
@@ -214,27 +212,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Flèche de défilement vers le bas */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.5,
-          delay: 2,
-          repeat: Infinity,
-          repeatType: "reverse",
-          repeatDelay: 1
-        }}
-        className="relative z-10 mt-2 mb-8 flex justify-center"
-      >
-        <button
-          id="scroll-down"
-          className="group flex flex-col items-center text-blue-400 hover:text-blue-300 transition-colors"
-        >
-          <span className="text-sm mb-2 opacity-70 group-hover:opacity-100">Découvrir</span>
-          <ChevronDown className="h-6 w-6 animate-bounce" />
-        </button>
-      </motion.div>
+      {/* Le bouton "Découvrir" avec la flèche a été supprimé */}
     </div>
   );
 }

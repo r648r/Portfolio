@@ -8,6 +8,8 @@ import { Filter, Shield, Skull, Server } from "lucide-react";
 import { getAllProjects, getProjectsByCategory, getCategoryCount, Project } from "@/lib/project-utils";
 import ConfettiButton from "./ConfettiButton";
 
+// Supprimé l'import problématique: import ScrollSection, { ScrollItem } from "./ScrollSection";
+
 // Type pour catégorie de projet
 type ProjectCategory = "Red Team" | "Blue Team" | "DevSecOps" | "All";
 

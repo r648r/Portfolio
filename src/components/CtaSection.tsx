@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Shield, Globe, Terminal, Server, Database, Code } from "lucide-react";
 
-export default function SkillsSection() {
+export default function CtaSection() {
   const skillCategories = [
     {
       id: "cybersecurity",
@@ -96,14 +96,14 @@ export default function SkillsSection() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-950 via-black to-blue-950">
+    <section id="competences" className="py-20 bg-gradient-to-b from-blue-950 via-black to-blue-950">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden opacity-30">
         <div className="absolute top-0 right-0 w-2/3 h-2/3 bg-gradient-to-br from-blue-500/10 to-indigo-600/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-2/3 h-2/3 bg-gradient-to-tr from-indigo-600/10 to-blue-400/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="gemini-container animate-content relative">
+      <div className="gemini-container relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -111,11 +111,117 @@ export default function SkillsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
-              Compétences Techniques
-            </span>
-          </h2>
+{/* Gradient 1 - Bleu à indigo (original) */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+    Compétences Techniques
+  </span>
+</h2>
+
+{/* Gradient 1 - Violet à rose à rouge */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+    Technologies Avancées
+  </span>
+</h2>
+
+{/* Gradient 2 - Bleu à cyan à vert */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-cyan-400 to-green-400">
+    Solutions Digitales
+  </span>
+</h2>
+
+{/* Gradient 3 - Orange à rose à violet */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-rose-400 to-purple-500">
+    Créations Artistiques
+  </span>
+</h2>
+
+{/* Gradient 4 - Jaune à vert à bleu */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-green-400 to-blue-500">
+    Projets Innovants
+  </span>
+</h2>
+
+{/* Gradient 5 - Bleu foncé à bleu clair à indigo */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-blue-400 to-indigo-500">
+    Compétences Techniques
+  </span>
+</h2>
+{/* Gradient 6 - Dégradé diagonal vert à turquoise */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-br from-green-500 via-teal-400 to-emerald-300">
+    Expertise Numérique
+  </span>
+</h2>
+
+{/* Gradient 7 - Dégradé de gauche à droite rouge à orange */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-amber-500 to-yellow-400">
+    Stratégies Marketing
+  </span>
+</h2>
+
+{/* Gradient 8 - Dégradé du bas vers le haut violet à rose */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-t from-violet-600 via-fuchsia-500 to-pink-400">
+    Intelligence Artificielle
+  </span>
+</h2>
+
+{/* Gradient 9 - Dégradé diagonal inversé bleu à vert */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-bl from-blue-600 via-sky-500 to-green-500">
+    Développement Web
+  </span>
+</h2>
+
+{/* Gradient 10 - Dégradé monochrome bleu */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400">
+    Architecture Cloud
+  </span>
+</h2>
+
+{/* Gradient 11 - Dégradé néon avec effet extra */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-500 to-indigo-600 drop-shadow-md">
+    Design Interactif
+  </span>
+</h2>
+
+{/* Gradient 12 - Dégradé tons terreux */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-orange-600 to-yellow-500">
+    Solutions Durables
+  </span>
+</h2>
+
+{/* Gradient 13 - Dégradé circulaire */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-tl from-sky-400 via-blue-500 to-indigo-600">
+    Analyse de Données
+  </span>
+</h2>
+
+{/* Gradient 15 - Dégradé automne */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 via-red-500 to-orange-400">
+    Vision Stratégique
+  </span>
+</h2>
+
+{/* Gradient 16 - Dégradé océan profond */}
+<h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-wide">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-900 via-cyan-700 to-teal-600">
+    Sécurité Informatique
+  </span>
+</h2>
+
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Expertise technique et savoir-faire professionnel
           </p>

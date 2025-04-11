@@ -1,9 +1,9 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import TerminalPlayer from "./TerminalPlayer";
-import MiniTerminal from "./MiniTerminal"; // Import du nouveau composant
+import MiniTerminal from "./MiniTerminal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "@/lib/theme-context";
 import { useLanguage } from "@/lib/language-context";
@@ -16,7 +16,7 @@ import ConfettiButton from "./ConfettiButton";
 
 // Interface pour les compétences avec icônes
 interface Skill {
-  id: string; // Ajout d'un id unique
+  id: string;
   name: string;
   icon: React.ReactNode;
   color: string;
@@ -32,7 +32,37 @@ interface Certification {
 export default function ProfileSection() {
   const { theme } = useTheme();
   const { t } = useLanguage();
-  const [expandedSection, setExpandedSection] = useState<string | null>("skills"); // Montrer les compétences par défaut
+  const [expandedSection, setExpandedSection] = useState<string | null>("skills");
+  const [navbarHeight, setNavbarHeight] = useState(70); // Valeur par défaut
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Calculer la hauteur de la navbar après le montage du composant
+  useEffect(() => {
+    // Fonction pour mesurer la navbar et ajuster le padding
+    const updateNavbarHeight = () => {
+      // On cible le header qui a la classe fixed
+      const navbar = document.querySelector('header');
+      if (navbar) {
+        const height = navbar.getBoundingClientRect().height;
+        setNavbarHeight(height);
+        
+        // Ajuster le padding-top de notre section
+        if (sectionRef.current) {
+          sectionRef.current.style.paddingTop = `${height + 20}px`; // hauteur + marge supplémentaire
+        }
+      }
+    };
+    
+    // Exécuter immédiatement
+    updateNavbarHeight();
+    
+    // Et lors du redimensionnement
+    window.addEventListener('resize', updateNavbarHeight);
+    
+    return () => {
+      window.removeEventListener('resize', updateNavbarHeight);
+    };
+  }, []);
 
   // Liste des compétences avec leurs icônes
   const skills: Skill[] = [
@@ -108,8 +138,28 @@ export default function ProfileSection() {
   };
 
   return (
-    <section className="pt-8 pb-16 bg-gradient-to-b from-blue-950 to-black text-white">
+    <section 
+      ref={sectionRef}
+      className="pb-16 bg-gradient-to-b from-blue-950 to-black text-white" 
+      style={{ paddingTop: `${navbarHeight + 20}px` }} // Padding dynamique basé sur la hauteur de la navbar
+    >
       <div className="gemini-container">
+        {/* Terminal version mobile - déplacé en position absolue pour être toujours visible */}
+        <div className="block md:hidden w-full relative mb-16">
+          <motion.div 
+            className="w-full max-w-xs mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <MiniTerminal title="~/profile" className="w-full shadow-lg" />
+            <div className="mt-2 text-center text-xs text-gray-400">
+              <p>Tapez <span className="px-1 py-0.5 bg-blue-900 rounded text-blue-300">help</span> dans le terminal pour découvrir les commandes</p>
+            </div>
+          </motion.div>
+        </div>
+
         <motion.div
           className="mb-8 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -165,11 +215,6 @@ export default function ProfileSection() {
               <h3 className="text-2xl font-bold text-blue-400 flex items-center gap-2">
                 <Shield className="h-6 w-6" /> {t("profile.about")}
               </h3>
-              
-              {/* Mini Terminal - version mobile qui s'affiche en haut sur petit écran */}
-              <div className="block md:hidden w-full max-w-xs mx-auto mt-4">
-                <MiniTerminal title="~/profile" className="w-full" />
-              </div>
             </div>
             
             <p className="text-gray-300 mb-4">
@@ -398,3 +443,4 @@ export default function ProfileSection() {
       </div>
     </section>
   );
+}

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Charger les polices Ubuntu Mono */
+/* ========== POLICES PERSONNALISÉES ========== */
 @font-face {
   font-family: 'Ubuntu Mono';
   src: url('/fonts/UbuntuMono-Regular.ttf') format('truetype');
@@ -35,46 +35,43 @@
   font-display: swap;
 }
 
+/* ========== VARIABLES GLOBALES ========== */
 @layer base {
   :root {
+    /* Couleurs de base */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-
-    --primary: 191 100% 50%; /* Gemini blue */
+    --primary: 191 100% 50%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
-
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
-
     --radius: 0.5rem;
 
-    /* Gemini custom colors */
+    /* Couleurs des dégradés */
+    --gemini-gradient-from: #38bdf8; /* Bleu ciel plus vif (sky-400) */
+    --gemini-gradient-to: #0ea5e9;   /* Bleu ciel plus profond (sky-500) */
+    
+    /* Couleurs personnalisées */
     --gemini-blue: 191 100% 50%;
     --gemini-dark: 240 10% 3.9%;
     --gemini-light-blue: 191 100% 95%;
     --gemini-success-green: 142 76% 43%;
     --gemini-error-red: 0 86% 59%;
 
-    /* Animation colors */
+    /* Couleurs d'animation */
     --color-background: #000;
     --color-primary: rgb(0, 220, 250);
     --color-secondary: rgb(54, 148, 255);
@@ -82,7 +79,7 @@
     --color-red: rgb(255, 87, 87);
     --color-purple: rgb(175, 126, 255);
 
-    /* Gradient button colors */
+    /* Couleurs de boutons en dégradé */
     --gradient-blue-from: rgb(14, 165, 233);
     --gradient-blue-to: rgb(59, 130, 246);
     --gradient-cyan-from: rgb(34, 211, 238);
@@ -94,36 +91,29 @@
     --gradient-teal-from: rgb(45, 212, 191);
     --gradient-teal-to: rgb(14, 165, 233);
 
-    /* Indicator values */
+    /* Valeurs pour les indicateurs */
     --indicator-size: 10px;
     --indicator-total-height: 100vh;
   }
 
+  /* Thème sombre */
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-
-    --primary: 191 100% 50%; /* Keep Gemini blue */
+    --primary: 191 100% 50%;
     --primary-foreground: 240 5.9% 10%;
-
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
@@ -131,16 +121,16 @@
 
   /* Thème bleu (par défaut) */
   .theme-blue {
-    --primary: 191 100% 50%; /* Gemini blue */
+    --primary: 191 100% 50%;
     --gemini-accent: 191 100% 50%;
-    --gemini-gradient-from: #00DCFA;
-    --gemini-gradient-to: #3694FF;
+    --gemini-gradient-from: #38bdf8;
+    --gemini-gradient-to: #0ea5e9;
     --gemini-hover: rgb(103, 232, 249);
   }
 
   /* Thème violet */
   .theme-purple {
-    --primary: 265 89% 78%; /* Violet */
+    --primary: 265 89% 78%;
     --gemini-accent: 265 89% 78%;
     --gemini-gradient-from: #AF7EFF;
     --gemini-gradient-to: #8A5CF5;
@@ -149,7 +139,7 @@
 
   /* Thème rouge */
   .theme-red {
-    --primary: 0 91% 71%; /* Rouge */
+    --primary: 0 91% 71%;
     --gemini-accent: 0 91% 71%;
     --gemini-gradient-from: #FF5757;
     --gemini-gradient-to: #FF0000;
@@ -157,51 +147,75 @@
   }
 }
 
+/* ========== STYLES DE BASE ========== */
 @layer base {
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
     font-family: 'Ubuntu Mono', monospace;
   }
 
-  /* Appliquer le dégradé à tous les titres h1, h2, h3 */
+  /* Titres avec dégradé */
   h1, h2, h3 {
-    @apply bg-clip-text text-transparent font-mono;
-    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
     font-family: 'Ubuntu Mono', monospace;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
   }
 }
 
+
+
+/* ========== COMPOSANTS PERSONNALISÉS ========== */
 @layer components {
+  /* Container principal */
   .gemini-container {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
+  /* Texte en dégradé */
   .gemini-gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
+    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    display: inline-block;
   }
 
+  /* Style amélioré pour les titres de héros */
+  .hero-title {
+    background-image: linear-gradient(to right, #38bdf8, #0ea5e9) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    text-shadow: none !important;
+  }
+
+  /* Boutons */
   .gemini-btn-primary {
     @apply rounded-full text-black font-medium transition-colors;
     background-color: hsl(var(--gemini-accent));
-    &:hover {
-      background-color: var(--gemini-hover);
-    }
+  }
+  
+  .gemini-btn-primary:hover {
+    background-color: var(--gemini-hover);
   }
 
   .gemini-btn-secondary {
     @apply rounded-full border border-slate-700 bg-transparent text-white font-medium hover:bg-slate-800 transition-colors;
   }
 
+  /* Cartes */
   .gemini-card {
     @apply rounded-2xl bg-black/20 backdrop-blur-sm border border-slate-800;
   }
 
-  /* Nouveaux styles de boutons en dégradé - CORRIGÉS */
+  /* Boutons avec dégradé */
   .btn-gradient {
     @apply relative inline-flex items-center justify-center p-0.5 rounded-lg overflow-hidden focus:outline-none shadow-lg transition-all duration-300;
   }
@@ -210,77 +224,77 @@
     @apply relative px-5 py-2.5 transition-all ease-in duration-200 rounded-md flex items-center justify-center gap-2;
   }
 
-  /* Variante Blue Team - Un dégradé cyan à bleu plus clair */
+  /* Variations de boutons en dégradé */
   .btn-blue-cyan {
     @apply bg-gradient-to-br from-blue-400 to-blue-600 hover:scale-105 focus:ring-4 focus:ring-blue-400/30;
   }
+  
   .btn-blue-cyan .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante violet-bleu pour DevSecOps - Nuances plus douces */
   .btn-purple-blue {
     @apply bg-gradient-to-br from-indigo-400 to-blue-600 hover:scale-105 focus:ring-4 focus:ring-indigo-400/30;
   }
+  
   .btn-purple-blue .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante bleu profond pour démos terminal */
   .btn-deep-blue {
     @apply bg-gradient-to-br from-blue-500 to-indigo-600 hover:scale-105 focus:ring-4 focus:ring-blue-500/30;
   }
+  
   .btn-deep-blue .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante teal-bleu - Plus vibrant */
   .btn-teal-blue {
     @apply bg-gradient-to-br from-cyan-400 to-blue-500 hover:scale-105 focus:ring-4 focus:ring-teal-400/30;
   }
+  
   .btn-teal-blue .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante rouge pour Red Team - Plus subtile */
   .btn-red-gradient {
     @apply bg-gradient-to-br from-red-500 to-red-700 hover:scale-105 focus:ring-4 focus:ring-red-500/30;
   }
+  
   .btn-red-gradient .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante violette pour sections spéciales - Plus subtile */
   .btn-purple-gradient {
     @apply bg-gradient-to-br from-indigo-500 to-purple-600 hover:scale-105 focus:ring-4 focus:ring-purple-500/30;
   }
+  
   .btn-purple-gradient .btn-gradient-inner {
     @apply bg-black/20 backdrop-blur-sm text-white hover:bg-transparent;
   }
 
-  /* Variante contours */
   .btn-outline-gradient {
     @apply bg-gradient-to-br from-blue-300 to-blue-500 hover:scale-105 focus:ring-4 focus:ring-blue-400/30;
   }
+  
   .btn-outline-gradient .btn-gradient-inner {
     @apply bg-black bg-opacity-90 text-white hover:bg-black/50;
   }
 }
 
-/* Système de défilement fluide avec snapping et animations */
+/* ========== ANIMATIONS DE DÉFILEMENT ========== */
 @layer base, rhythm, layout, components, default, overwrites {
   html {
-    /* Créer une règle de snapping sur l'élément html */
+    /* Règles de défilement avec snapping */
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-
+    
     /* Créer un scope de timeline pour cibler n'importe quel élément de la page */
     timeline-scope: --section, --main, --site-header;
   }
 
-  /* Correspondre aux couleurs pour obtenir le meilleur effet de fusion */
-  body,
-  .content-section {
+  /* Couleurs d'arrière-plan */
+  body, .content-section {
     background-color: var(--color-background, black);
   }
 
@@ -289,14 +303,14 @@
   }
 
   .snap-section {
-    /* Créer une règle de snapping sur l'élément section */
+    /* Snap au défilement */
     scroll-snap-align: start;
     scroll-snap-stop: always;
-
-    /* Attacher la timeline à l'élément section */
+    
+    /* Timeline pour animations */
     view-timeline: --section;
-
-    /* Définir chaque section à la hauteur dynamique complète du viewport */
+    
+    /* Taille minimale */
     min-height: 100dvh;
     position: relative;
     overflow: hidden;
@@ -308,22 +322,19 @@
     animation-timeline: --section;
   }
 
-  /* Animation pour l'apparition/disparition du contenu */
+  /* Apparition/disparition du contenu */
   @keyframes fade-in-out {
-    0%,
-    100% {
+    0%, 100% {
       opacity: 0;
       transform: translateY(30px);
     }
-
-    30%,
-    70% {
+    30%, 70% {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
-  /* Animation horizontale au défilement */
+  /* Animation horizontale */
   .animate-horizontal {
     animation: horizontal-scroll ease-in-out both;
     animation-timeline: --section;
@@ -334,19 +345,17 @@
       transform: translate3d(100%, 0%, 0);
       opacity: 0;
     }
-
     50% {
       transform: none;
       opacity: 1;
     }
-
     100% {
       transform: translate3d(-100%, 0%, 0);
       opacity: 0;
     }
   }
 
-  /* Animation de zoom au défilement */
+  /* Animation de zoom */
   .animate-zoom {
     animation: zoom-scroll ease-in-out both;
     animation-timeline: --section;
@@ -358,13 +367,11 @@
       transform: scale(0.7);
       opacity: 0;
     }
-
     50% {
       filter: blur(0);
       transform: scale(1);
       opacity: 1;
     }
-
     100% {
       filter: blur(3rem);
       transform: scale(1.3);
@@ -373,7 +380,7 @@
   }
 }
 
-/* Styles pour Asciinema */
+/* ========== STYLES POUR ASCIINEMA ========== */
 .asciinema-player {
   max-width: 100% !important;
   border-radius: 8px;
@@ -398,6 +405,7 @@
   border-top: 1px solid #3a3a3a !important;
 }
 
+/* Responsive pour Asciinema */
 @media (max-width: 768px) {
   .asciinema-terminal {
     font-size: 10px !important;
@@ -412,7 +420,7 @@
   font-size: 11px !important;
 }
 
-/* Style pour le conteneur de boutons avec ligne de dégradé */
+/* ========== CONTENEUR DE BOUTONS AVEC DÉGRADÉ ========== */
 .gradient-buttons-container {
   position: relative;
   margin-bottom: 16px;
@@ -430,7 +438,7 @@
   border-radius: 2px;
 }
 
-/* Ajustement des couleurs des boutons pour qu'ils correspondent à leur position dans le dégradé */
+/* Couleurs spécifiques pour les boutons dans le conteneur */
 .gradient-buttons-container > a:nth-child(1) {
   background: linear-gradient(to right, #1e3a8a, #1e40af);
 }
@@ -453,4 +461,58 @@
 
 .gradient-buttons-container > a:nth-child(3):hover {
   background: linear-gradient(to right, #dc2626, #ef4444);
+}
+
+/* Modification du style des titres h1 pour les grossir */
+@layer base {
+  h1 {
+    @apply bg-clip-text text-transparent font-mono text-5xl sm:text-6xl md:text-7xl font-bold;
+    background-image: linear-gradient(to right, var(--gemini-gradient-from), var(--gemini-gradient-to));
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    font-family: 'Ubuntu Mono', monospace;
+  }
+}
+
+
+/* Style pour le conteneur de boutons avec ligne de dégradé */
+.gradient-buttons-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Ligne de dégradé sous les boutons */
+.gradient-buttons-container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 4px;
+  background: linear-gradient(to right, #1e3a8a, #7e22ce, #dc2626);
+  border-radius: 2px;
+}
+
+/* Nouveaux dégradés plus prononcés pour les boutons */
+.gradient-buttons-container > a:nth-child(1) {
+  background: linear-gradient(to right, #0f2657, #3b82f6);
+}
+
+.gradient-buttons-container > a:nth-child(1):hover {
+  background: linear-gradient(to right, #1d4ed8, #60a5fa);
+}
+
+.gradient-buttons-container > a:nth-child(2) {
+  background: linear-gradient(to right, #4c1d95, #8b5cf6);
+}
+
+.gradient-buttons-container > a:nth-child(2):hover {
+  background: linear-gradient(to right, #6d28d9, #a78bfa);
+}
+
+.gradient-buttons-container > a:nth-child(3) {
+  background: linear-gradient(to right, #7f1d1d, #ef4444);
+}
+
+.gradient-buttons-container > a:nth-child(3):hover {
+  background: linear-gradient(to right, #b91c1c, #f87171);
 }

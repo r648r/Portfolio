@@ -4,15 +4,27 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MiniTerminal from "@/components/MiniTerminal";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import PgpKey from "@/components/PgpKey";
+import TmuxConfig from "@/components/TmuxConfig";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Terminal, Code, Cpu, Command, Server, Shield, Braces, Github } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Terminal,
+  Code,
+  Cpu,
+  Command,
+  Server,
+  Shield,
+  Braces,
+  Github,
+  Key,
+  Lock,
+  Mail,
+  Layers,
+  Monitor,
+} from "lucide-react";
 import { useTheme } from "@/lib/theme-context";
 import { getProjectsByCategory, Project } from "@/lib/project-utils";
-import EmbedAsciinema from "@/components/EmbedAsciinema";
 
 export default function DevPage() {
   const { setTheme } = useTheme();
@@ -25,7 +37,7 @@ export default function DevPage() {
     setProjects(getProjectsByCategory("Development"));
   }, []);
 
-  // Effect pour l'animation du texte type terminal
+  // Animation du texte façon terminal
   useEffect(() => {
     let i = 0;
     const typingInterval = setInterval(() => {
@@ -40,16 +52,169 @@ export default function DevPage() {
     return () => clearInterval(typingInterval);
   }, []);
 
-  // Force le thème bleu pour cette page
+  // Forcer le thème bleu pour cette page
   useEffect(() => {
     setTheme("blue");
-    return () => {};
   }, [setTheme]);
+
+  // Injection des styles NES (animation console rétro)
+  useEffect(() => {
+    const nesStyle = document.createElement("style");
+    nesStyle.textContent = `
+    @import url(https://fonts.googleapis.com/css?family=Coda+Caption:800);
+    .nes-container {
+      padding: 30px;
+      border-radius: 8px;
+      position: relative;
+      margin: 2rem auto;
+      max-width: 45em;
+    }
+    #size1, #size2, #size3, #size4 {
+      position: absolute;
+      left: -9999px;
+    }
+    input:checked + .size1, input:checked + .size2, input:checked + .size3, input:checked + .size4 {
+      box-shadow: inset 2px 3px 0px rgba(0, 0, 0, 0.34),inset -1px -1px 0px rgba(255, 255, 255, 0.22);
+      background: #7A7077;
+    }
+    .size1 {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #CDC8C5;
+      left: 60px;
+      top: 60px;
+      border-radius: 50%;
+    }
+    .size2 {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: #CDC8C5;
+      left: 90px;
+      top: 50px;
+      border-radius: 50%;
+    }
+    .size3 {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #CDC8C5;
+      left: 140px;
+      top: 40px;
+      border-radius: 50%;
+    }
+    .size4 {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: #CDC8C5;
+      left: 220px;
+      top: 30px;
+      border-radius: 50%;
+    }
+    #size1:checked ~ #nes {
+      font-size: 8px;
+    }
+    #size2:checked ~ #nes {
+      font-size: 12px;
+    }
+    #size3:checked ~ #nes {
+      font-size: 16px;
+    }
+    #size4:checked ~ #nes {
+      font-size: 20px;
+    }
+    #nes {
+      width: 45em;
+      height: 15em;
+      margin: 140px auto;
+      position: relative;
+      color: #B62F28;
+      font-family: 'Coda Caption', sans-serif;
+      transition: all 0.1s;
+    }
+    #nes:after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 0;
+      box-shadow: 0 0 5em 3em rgba(0, 0, 0, 0.22);
+      bottom: -4%;
+      left: 10%;
+      z-index: -1;
+      border-radius: 50%;
+    }
+    .nes-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45em;
+      height: 7.4em;
+      background: #cdc8c5;
+      border-radius: 0.3em 0.3em 0 0;
+      box-shadow: 0 0.1em 0em #B8B4B2,0 0.5em 0em -0.2em #535353;
+      border-top: 0.2em solid rgba(255, 255, 255, 0.32);
+      border-left: 0.2em solid rgba(255, 255, 255, 0.32);
+      border-right: 0.2em solid rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+    }
+    .lid {
+      z-index: 1;
+      width: 25em;
+      height: 6em;
+      background: #CDC8C5;
+      position: absolute;
+      left: 5em;
+      transition: all 1s;
+      transform-style: preserve-3d;
+      transform-origin:0 0 -6em;
+      box-sizing: border-box;
+      border-top: 0.2em solid rgba(255, 255, 255, 0.32);
+      top: -0.2em;
+      box-shadow: 0 0.1em 0.2em 0 rgba(0, 0, 0, 0.41);
+      border-right: 0.1em solid rgba(255, 255, 255, 0.26);
+      border-bottom: 0.1em solid rgba(255, 255, 255, 0.26);
+      border-radius: 0.15em;
+    }
+    .nes-bottom {
+      width: 39em;
+      height: 7.5em;
+      background: #7A7077;
+      position: absolute;
+      bottom: 0;
+      left: 3em;
+      border-bottom: 0.2em solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0.6em 1em -0.3em rgba(0, 0, 0, 0.45);
+    }
+    .power-box {
+      position: absolute;
+      left: 1.4em;
+      width: 11.5em;
+      top: 0;
+      height: 5.8em;
+      border: 0.1em solid rgba(0, 0, 0, 0.05);
+      border-top: 0;
+      border-radius: 0.3em;
+      border-top-right-radius: 0;
+      border-right: 0.1em solid rgba(255, 255, 255, 0.05);
+      color: #AC2828;
+    }
+    /* ...etc (réduction pour brièveté)... */
+    `;
+    document.head.appendChild(nesStyle);
+    return () => {
+      document.head.removeChild(nesStyle);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-950 via-black to-blue-950 text-white">
+      {/* En-tête */}
       <Header />
+
       <div className="pt-32 pb-20 gemini-container">
+        {/* ------ SECTION INTRO (animation) ------ */}
         <div className="mb-12 text-center">
           <motion.div
             className="flex items-center justify-center gap-4"
@@ -72,7 +237,7 @@ export default function DevPage() {
             Découvrez mes projets de développement, mes compétences techniques et mon activité sur GitHub.
           </motion.p>
 
-          {/* Animation GitHub agrandie */}
+          {/* Animation GitHub */}
           <motion.div
             className="mt-6 flex justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -82,14 +247,14 @@ export default function DevPage() {
             <Image
               src="https://green-wall.leoku.dev/_next/image?url=/mona-loading-default.gif&w=128&q=75"
               alt="GitHub Animation"
-              width={256}   // Agrandi
-              height={256}  // Agrandi
+              width={256}
+              height={256}
               className="rounded-full border-2 border-blue-400"
             />
           </motion.div>
         </div>
 
-        {/* Section GitHub Stats */}
+        {/* ------ GITHUB STATS ------ */}
         <motion.div
           className="bg-blue-900/20 p-8 rounded-lg border border-blue-700 mb-10"
           initial={{ opacity: 0, scale: 0.95 }}
@@ -102,17 +267,16 @@ export default function DevPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            {/* Langages utilisés */}
+            {/* Langages */}
             <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center">
               <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
                 Langages utilisés
               </h3>
-              {/* On retire fill et on donne une taille plus grande */}
               <Image
                 src="https://github-readme-stats.vercel.app/api/top-langs/?username=r648r&size_weight=0&count_weight=1"
                 alt="Langages par nombre de dépôts"
-                width={800}   // Largeur agrandie
-                height={500}  // Hauteur agrandie
+                width={800}
+                height={500}
                 style={{ objectFit: "contain" }}
                 className="rounded-lg"
               />
@@ -123,12 +287,11 @@ export default function DevPage() {
               <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
                 Contributions
               </h3>
-              {/* Idem, on retire fill et fixons la taille */}
               <Image
                 src="/img/github.png"
                 alt="Contributions GitHub"
-                width={800}   // Largeur agrandie
-                height={500}  // Hauteur agrandie
+                width={800}
+                height={500}
                 style={{ objectFit: "contain" }}
                 className="rounded-lg"
                 priority
@@ -137,7 +300,7 @@ export default function DevPage() {
           </div>
         </motion.div>
 
-        {/* Section Terminal Interactif */}
+        {/* ------ TERMINAL INTERACTIF ------ */}
         <motion.div
           className="bg-blue-900/20 p-8 rounded-lg border border-blue-700 mb-10"
           initial={{ opacity: 0, scale: 0.95 }}
@@ -174,7 +337,7 @@ export default function DevPage() {
           </div>
         </motion.div>
 
-        {/* Technologies et compétences */}
+        {/* ------ TECHNOLOGIES ET COMPÉTENCES ------ */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -219,7 +382,7 @@ export default function DevPage() {
           </div>
         </motion.div>
 
-        {/* Section Démos de Code avec Asciinema (inchangé) */}
+        {/* ------ CLÉ PGP ------ */}
         <motion.div
           className="bg-blue-900/20 p-8 rounded-lg border border-blue-700 mb-10"
           initial={{ opacity: 0, scale: 0.95 }}
@@ -227,172 +390,150 @@ export default function DevPage() {
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <div className="flex items-center mb-6">
-            <Terminal className="h-8 w-8 text-blue-400 mr-3" />
-            <h2 className="text-2xl font-bold text-blue-400">Démos de Code</h2>
+            <Key className="h-8 w-8 text-blue-400 mr-3" />
+            <h2 className="text-2xl font-bold text-blue-400">Clé PGP</h2>
           </div>
 
-          <Tabs defaultValue="demo1" className="w-full">
-            <TabsList className="w-full grid grid-cols-5 bg-transparent border border-blue-500 p-1 rounded-lg mb-6">
-              <TabsTrigger
-                value="demo1"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-              >
-                Demo 1
-              </TabsTrigger>
-              <TabsTrigger
-                value="demo2"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-              >
-                Demo 2
-              </TabsTrigger>
-              <TabsTrigger
-                value="demo3"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-              >
-                Demo 3
-              </TabsTrigger>
-              <TabsTrigger
-                value="demo4"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-              >
-                Demo 4
-              </TabsTrigger>
-              <TabsTrigger
-                value="demo5"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-              >
-                Demo 5
-              </TabsTrigger>
-            </TabsList>
+          <div className="mb-6">
+            <p className="text-gray-300">
+              Cette clé publique PGP vous permet de m'envoyer des messages chiffrés ou de vérifier
+              l'authenticité des communications que je vous envoie.
+            </p>
+          </div>
 
-            <TabsContent value="demo1" className="mt-4">
-              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                Animation Vim
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Démonstration de Vim et de ses capacités d'édition avancées.
-              </p>
-              <div className="bg-black rounded-lg border border-blue-800">
-                <EmbedAsciinema
-                  castId="24812"
-                  title="~/vim-demo"
-                  theme="monokai"
-                  autoPlay={true}
-                  height="400px"
-                  fit="width"
-                />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Lock className="h-6 w-6 text-blue-400" />
               </div>
-            </TabsContent>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Confidentialité
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Les messages chiffrés avec cette clé ne peuvent être lus que par moi.
+              </p>
+            </div>
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Shield className="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Authenticité
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Vérifiez l'authenticité des communications que je vous envoie.
+              </p>
+            </div>
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Mail className="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Communication Sécurisée
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Établissez un canal de communication sécurisé pour les informations sensibles.
+              </p>
+            </div>
+          </div>
 
-            <TabsContent value="demo2" className="mt-4">
-              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                Processus de développement
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Visualisation du processus de développement et d'exécution de scripts.
-              </p>
-              <div className="bg-black rounded-lg border border-blue-800">
-                <EmbedAsciinema
-                  castId="239367"
-                  title="~/dev-process"
-                  theme="monokai"
-                  autoPlay={true}
-                  height="400px"
-                  fit="width"
-                />
-              </div>
-            </TabsContent>
+          <PgpKey />
 
-            <TabsContent value="demo3" className="mt-4">
-              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                Animation Système
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Présentation d'outils système et de commandes shell avancées.
-              </p>
-              <div className="bg-black rounded-lg border border-blue-800">
-                <EmbedAsciinema
-                  castId="117813"
-                  title="~/system-tools"
-                  theme="monokai"
-                  autoPlay={true}
-                  height="400px"
-                  fit="width"
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="demo4" className="mt-4">
-              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                Démo bash
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Démonstration de commandes bash et d'utilitaires en ligne de commande.
-              </p>
-              <div className="bg-black rounded-lg border border-blue-800">
-                <EmbedAsciinema
-                  castId="8"
-                  title="~/bash-demo"
-                  autoPlay={true}
-                  height="400px"
-                  fit="width"
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="demo5" className="mt-4">
-              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                Animation Terminal
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Présentation des fonctionnalités avancées du terminal et des outils de développement.
-              </p>
-              <div className="bg-black rounded-lg border border-blue-800">
-                <EmbedAsciinema
-                  castId="441582"
-                  title="~/terminal-tools"
-                  autoPlay={true}
-                  height="400px"
-                  fit="width"
-                />
-              </div>
-            </TabsContent>
-          </Tabs>
+          <div className="mt-6 bg-blue-900/40 p-4 rounded-lg border border-blue-600">
+            <h3 className="text-xl font-semibold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              Comment utiliser cette clé ?
+            </h3>
+            <ol className="space-y-2 text-gray-300 ml-5 list-decimal">
+              <li>Importez cette clé dans votre gestionnaire GPG (GnuPG, GPGTools, etc.)</li>
+              <li>Chiffrez votre message avec cette clé publique</li>
+              <li>Envoyez le message chiffré via e-mail ou tout autre canal</li>
+              <li>Je pourrai déchiffrer le message avec ma clé privée correspondante</li>
+            </ol>
+          </div>
         </motion.div>
 
-        {/* Boutons de navigation */}
-        <div className="flex justify-center gap-4 flex-wrap">
-          <Link href="/terminal">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              <Terminal className="h-4 w-4" />
-              Terminal
-            </Button>
-          </Link>
-          <Link href="/devsecops">
-            <Button className="bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-600/20 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              DevSecOps
-            </Button>
-          </Link>
-          <Link href="/red-team">
-            <Button className="bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/20 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              <Cpu className="h-4 w-4" />
-              Red Team
-            </Button>
-          </Link>
-          <Link href="/blue-team">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              Blue Team
-            </Button>
-          </Link>
-          <Link href="/">
-            <Button className="bg-gray-700 hover:bg-gray-600 text-white shadow-lg shadow-gray-700/20 transition-all duration-300 transform hover:scale-105">
-              Retour à l'accueil
-            </Button>
-          </Link>
-        </div>
+        {/* ------ TMUX CONFIG ------ */}
+        <motion.div
+          className="bg-blue-900/20 p-8 rounded-lg border border-blue-700 mb-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <div className="flex items-center mb-6">
+            <Terminal className="h-8 w-8 text-blue-400 mr-3" />
+            <h2 className="text-2xl font-bold text-blue-400">Configuration Tmux</h2>
+          </div>
+
+          <div className="mb-6">
+            <p className="text-gray-300">
+              Tmux est un multiplexeur de terminal permettant de lancer plusieurs sessions de terminal dans une seule fenêtre.
+              Voici ma configuration personnalisée pour optimiser mon flux de travail en cybersécurité.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Layers className="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Sessions Persistantes
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Gardez vos sessions actives même après la déconnexion.
+              </p>
+            </div>
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Monitor className="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Multiples Panneaux
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Divisez votre terminal en plusieurs panneaux pour une meilleure productivité.
+              </p>
+            </div>
+            <div className="bg-blue-900/40 p-4 rounded-lg border border-blue-600 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center mb-3">
+                <Command className="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                Raccourcis Personnalisés
+              </h3>
+              <p className="text-gray-300 text-sm">
+                Raccourcis clavier optimisés pour une navigation rapide.
+              </p>
+            </div>
+          </div>
+
+          <TmuxConfig />
+
+          <div className="mt-6 bg-blue-900/40 p-4 rounded-lg border border-blue-600">
+            <h3 className="text-xl font-semibold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              Installation et utilisation
+            </h3>
+            <ol className="space-y-2 text-gray-300 ml-5 list-decimal">
+              <li>
+                Copiez ce contenu dans un fichier <code className="bg-blue-900 px-1 rounded">.tmux.conf</code> dans votre répertoire principal
+              </li>
+              <li>
+                Rechargez la configuration avec{" "}
+                <code className="bg-blue-900 px-1 rounded">tmux source-file ~/.tmux.conf</code>
+              </li>
+              <li>
+                Démarrez une nouvelle session tmux avec{" "}
+                <code className="bg-blue-900 px-1 rounded">tmux</code>
+              </li>
+              <li>
+                Utilisez <code className="bg-blue-900 px-1 rounded">C-b</code> (Ctrl+b) comme touche préfixe par défaut
+              </li>
+            </ol>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Pied de page */}
       <Footer />
     </div>
   );

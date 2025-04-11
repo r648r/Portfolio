@@ -88,31 +88,31 @@ export default function ExpertiseSection() {
           </motion.div>
         </div>
 
-        {/* Boutons avec dégradé linéaire sous les boutons */}
+        {/* Boutons sans la barre de dégradé */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-12 relative"
         >
-          <div className="gradient-buttons-container flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
             <ConfettiButton
               href="#audit"
-              className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
+              className="bg-gradient-to-r from-blue-800 via-blue-600 to-violet-700 hover:from-blue-700 hover:via-blue-600 hover:to-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
             >
               Service d'audit sécurité
             </ConfettiButton>
 
             <ConfettiButton
               href="#formation"
-              className="bg-gradient-to-r from-violet-800 via-violet-700 to-violet-600 hover:from-violet-700 hover:via-violet-600 hover:to-violet-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
+              className="bg-gradient-to-r from-violet-800 via-red-700 to-red-700 hover:from-violet-700 hover:via-violet-600 hover:to-violet-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
             >
               Formations cybersécurité
             </ConfettiButton>
 
             <ConfettiButton
               href="#conseil"
-              className="bg-gradient-to-r from-red-800 via-red-700 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
+              className="bg-gradient-to-r from-red-600 via-violet-600 to-blue-600 hover:from-red-700 hover:via-red-600 hover:to-red-500 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 whitespace-nowrap flex-1 text-center max-w-xs"
             >
               Conseil stratégique
             </ConfettiButton>
